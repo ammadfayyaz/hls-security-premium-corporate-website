@@ -1,0 +1,10 @@
+# HLS Security — robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://hls-security.com/sitemap.xml
+
+# Disallow crawl of search and filter parameters
+Disallow: /*?*
+Disallow: /404
