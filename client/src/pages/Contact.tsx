@@ -17,7 +17,7 @@ export default function Contact() {
     <div className="bg-background">
     <SEO 
       title="Contact HLS Security — Free Security Assessment & Quotes"
-      description="Contact HLS Security for a free security assessment, product quotes, or 24/7 emergency support. Call +92-300-1457911 or message us today."
+      description="Contact HLS Security for a free security assessment, product quotes, or 24/7 emergency support. Call 042-111-457-911 or message us today."
       path="/contact"
     />
       {/* Page Hero */}
@@ -64,8 +64,8 @@ export default function Contact() {
                 <Phone className="w-6 h-6 text-[#CC0000]" />
               </div>
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-2">Phone</h3>
-              <a href="tel:+923001457911" className="text-lg text-gray-300 hover:text-[#CC0000] transition-colors">
-                +92-300-1457911
+              <a href="tel:042111457911" className="text-lg text-gray-300 hover:text-[#CC0000] transition-colors">
+                042-111-457-911
               </a>
               <p className="text-xs text-gray-500 mt-1">24/7 Support Line</p>
             </motion.div>
