@@ -149,9 +149,9 @@ export default function Contact() {
                     <div>
                       <h4 className="font-heading text-sm font-semibold text-white mb-1">Office Address</h4>
                       <p className="text-sm text-gray-400">
-                        24 Security Plaza, Suite 100<br />
-                        Business District, City 00000<br />
-                        United States
+                        73 Munir Road<br />
+                        Lahore Cantt.<br />
+                        Pakistan.
                       </p>
                     </div>
                   </div>
@@ -167,7 +167,7 @@ export default function Contact() {
                       <div className="text-sm text-gray-400 space-y-1">
                         <div className="flex justify-between">
                           <span>Office Hours</span>
-                          <span>Mon–Fri, 9:00 AM – 6:00 PM</span>
+                          <span style={{marginLeft: '20px'}}>9:00 AM – 6:00 PM</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Monitoring Center</span>
@@ -249,7 +249,7 @@ export default function Contact() {
                 <div className="absolute inset-0 bg-[#CC0000]/20 blur-xl rounded-full animate-pulse-glow" />
               </div>
               <p className="mt-4 font-heading text-sm font-semibold text-white">HLS Security Headquarters</p>
-              <p className="text-xs text-gray-500">24 Security Plaza, Suite 100</p>
+              <p className="text-xs text-gray-500">73 Munir Road Lahore Cantt. Pakistan</p>
             </div>
             {/* Corner accents */}
             <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-[#CC0000]/30 rounded-tl-lg" />

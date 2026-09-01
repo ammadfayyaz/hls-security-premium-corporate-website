@@ -15,3 +15,9 @@
 
 - [x] Verify the support-line display, tel link, and Contact metadata use 042-111-457-911 consistently.
 - [x] Run validation checks and create a fresh checkpoint.
+
+## Address and Hours Verification
+
+- [x] Verify the Lahore address in the office and map-location sections.
+- [x] Verify the revised office-hours value and spacing.
+- [x] Run validation checks and create a fresh checkpoint.
