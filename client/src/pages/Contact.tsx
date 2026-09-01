@@ -17,7 +17,7 @@ export default function Contact() {
     <div className="bg-background">
     <SEO 
       title="Contact HLS Security — Free Security Assessment & Quotes"
-      description="Contact HLS Security for a free security assessment, product quotes, or 24/7 emergency support. Call +1 (555) 100-2470 or message us today."
+      description="Contact HLS Security for a free security assessment, product quotes, or 24/7 emergency support. Call +92-300-1457911 or message us today."
       path="/contact"
     />
       {/* Page Hero */}
@@ -64,8 +64,8 @@ export default function Contact() {
                 <Phone className="w-6 h-6 text-[#CC0000]" />
               </div>
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-2">Phone</h3>
-              <a href="tel:+15551002470" className="text-lg text-gray-300 hover:text-[#CC0000] transition-colors">
-                +1 (555) 100-2470
+              <a href="tel:+923001457911" className="text-lg text-gray-300 hover:text-[#CC0000] transition-colors">
+                +92-300-1457911
               </a>
               <p className="text-xs text-gray-500 mt-1">24/7 Support Line</p>
             </motion.div>
@@ -118,8 +118,8 @@ export default function Contact() {
                 <AlertCircle className="w-6 h-6 text-red-400" />
               </div>
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-2">Emergency</h3>
-              <a href="tel:+15559110000" className="text-lg text-gray-300 hover:text-red-400 transition-colors">
-                +1 (555) 911-0000
+              <a href="tel:+9242111457911" className="text-lg text-gray-300 hover:text-red-400 transition-colors">
+                042-111-457-911
               </a>
               <p className="text-xs text-gray-500 mt-1">Immediate response</p>
             </motion.div>

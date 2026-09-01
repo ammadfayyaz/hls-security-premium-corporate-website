@@ -4,3 +4,9 @@
 - [x] Update the home-page hero image reference without changing unrelated design or functionality.
 - [x] Verify the hero banner on desktop and mobile preview states.
 - [ ] Save a checkpoint and deliver the updated project version.
+
+## Contact Number Verification
+
+- [x] Review the final displayed phone numbers in Contact.tsx.
+- [x] Confirm or correct the corresponding telephone links.
+- [x] Run validation checks and save a new checkpoint.
