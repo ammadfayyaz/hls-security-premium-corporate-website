@@ -47,12 +47,12 @@ export default function Home() {
         {/* Background - Full Banner Image (Desktop) */}
         <div className="absolute inset-0 flex items-center justify-center">
           <img
-            src="/manus-storage/hls-hero-banner_73c91306.png"
+            src="/images/hero/hls-hero-banner.png"
             alt="HLS Security — Smart Security. 24/7 Monitoring. Rapid Response."
             className="w-full h-full object-cover object-[center_55%] hidden md:block"
           />
           <img
-            src="/manus-storage/hls-mobile-hero-banner_67dbe825.png"
+            src="/images/hero/hls-mobile-hero-banner.png"
             alt="HLS Security — Smart Security. 24/7 Monitoring. Rapid Response."
             className="w-full h-full object-cover object-center md:hidden"
           />
@@ -154,13 +154,13 @@ export default function Home() {
       <section className="bg-[#0B0B0B] py-10 md:py-14">
         <div className="container">
           <img
-            src="/manus-storage/hls-operational-procedure-banner_6be2c7ec.png"
+            src="/images/banners/hls-operational-procedure-banner.png"
             alt="Our operational procedure: protecting what matters from threat detection to rapid response"
             className="hidden md:block w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
             loading="lazy"
           />
           <img
-            src="/manus-storage/hls-operational-procedure-banner-mobile_4eb88b4a.png"
+            src="/images/banners/hls-operational-procedure-banner-mobile.png"
             alt="Our operational procedure: protecting what matters from threat detection to rapid response"
             className="block md:hidden w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
             loading="lazy"
