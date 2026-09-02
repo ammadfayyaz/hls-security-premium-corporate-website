@@ -47,12 +47,12 @@ export default function Home() {
         {/* Background - Full Banner Image (Desktop) */}
         <div className="absolute inset-0 flex items-center justify-center">
           <img
-            src="/manus-storage/hls-hero-banner_73c91306.png"
+            src="/images/hero/hls-hero-banner.png"
             alt="HLS Security — Smart Security. 24/7 Monitoring. Rapid Response."
             className="w-full h-full object-cover object-[center_55%] hidden md:block"
           />
           <img
-            src="/manus-storage/hls-mobile-hero-banner_67dbe825.png"
+            src="/images/hero/hls-mobile-hero-banner.png"
             alt="HLS Security — Smart Security. 24/7 Monitoring. Rapid Response."
             className="w-full h-full object-cover object-center md:hidden"
           />
