@@ -154,7 +154,7 @@ export default function Home() {
       <section className="bg-[#0B0B0B] py-10 md:py-14">
         <div className="container">
           <img
-            src="/manus-storage/hls-operational-procedure-banner_6be2c7ec.png"
+            src="/images/banners/hls-operational-procedure-banner.png"
             alt="Our operational procedure: protecting what matters from threat detection to rapid response"
             className="w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
             loading="lazy"
