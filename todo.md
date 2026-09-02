@@ -37,7 +37,13 @@
 
 ## Synchronization Recovery and GitHub Propagation
 
-- [ ] Inspect the current Manus workspace hero implementation and GitHub main state.
-- [ ] Refresh project synchronization and persist the current workspace as a checkpoint.
-- [ ] Synchronize the checkpointed change to GitHub main and confirm its commit hash.
-- [ ] Verify the desktop/mobile hero implementation is unchanged from the current workspace.
+- [x] Inspect the current Manus workspace hero implementation and GitHub main state.
+- [x] Refresh project synchronization and persist the current workspace as a checkpoint.
+- [x] Synchronize the checkpointed change to GitHub main and confirm its commit hash.
+- [x] Verify the desktop/mobile hero implementation is unchanged from the current workspace.
+
+## Homepage Operational Procedure Banner
+
+- [x] Prepare the provided operational-procedure banner as a project-scoped web asset.
+- [x] Insert the banner between Our Core Services and Why Choose HLS.
+- [x] Verify desktop/mobile rendering and build health, then create a checkpoint.
