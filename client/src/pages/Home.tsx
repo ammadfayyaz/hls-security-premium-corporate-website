@@ -52,9 +52,9 @@ export default function Home() {
             className="w-full h-full object-cover object-[center_55%] hidden md:block"
           />
           <img
-            src="/manus-storage/hls-hero-banner_73c91306.png"
-            alt="HLS Security — Smart Security. 24/7 Monitoring. Armed Response."
-            className="w-full h-full object-cover object-[center_35%] md:hidden"
+            src="/manus-storage/hls-mobile-hero-banner_67dbe825.png"
+            alt="HLS Security — Smart Security. 24/7 Monitoring. Rapid Response."
+            className="w-full h-full object-cover object-center md:hidden"
           />
         </div>
 

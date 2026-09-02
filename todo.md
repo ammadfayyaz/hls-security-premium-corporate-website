@@ -21,3 +21,23 @@
 - [x] Verify the Lahore address in the office and map-location sections.
 - [x] Verify the revised office-hours value and spacing.
 - [x] Run validation checks and create a fresh checkpoint.
+
+## Mobile Hero Image Replacement
+
+- [x] Prepare the provided portrait image as a project-scoped web asset.
+- [x] Update only the mobile home-page hero image reference.
+- [x] Verify mobile and desktop hero rendering, then create a checkpoint.
+
+## Netlify Hero Debugging
+
+- [ ] Re-check the live homepage HTML and hero asset responses after redeployment.
+- [ ] Inspect browser console and network behavior for hero-loading failures.
+- [ ] Compare Netlify output with GitHub source and build output.
+- [ ] Apply or document the minimal corrective action and verify the live result.
+
+## Synchronization Recovery and GitHub Propagation
+
+- [ ] Inspect the current Manus workspace hero implementation and GitHub main state.
+- [ ] Refresh project synchronization and persist the current workspace as a checkpoint.
+- [ ] Synchronize the checkpointed change to GitHub main and confirm its commit hash.
+- [ ] Verify the desktop/mobile hero implementation is unchanged from the current workspace.
