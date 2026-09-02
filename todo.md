@@ -47,3 +47,24 @@
 - [x] Prepare the provided operational-procedure banner as a project-scoped web asset.
 - [x] Insert the banner between Our Core Services and Why Choose HLS.
 - [x] Verify desktop/mobile rendering and build health, then create a checkpoint.
+
+## Attached Website Instructions
+
+- [x] Read and interpret the endorsed instructions in pasted_content.txt.
+- [ ] Inspect the current production Operational Procedure Banner source and exact asset.
+- [ ] Copy the banner asset into the current repository and update only its source path.
+- [ ] Verify the working hero banners, Operational Procedure Banner, and production build.
+- [ ] Commit and push the minimal fix to the current repository main branch.
+
+## Mobile Operational Procedure Banner
+
+- [x] Prepare the supplied portrait banner as a project-scoped asset.
+- [x] Add a mobile-only banner variant while preserving the existing desktop banner and section styling.
+- [x] Verify desktop/mobile rendering and build health, then save a checkpoint.
+
+## Current Production Repository Hero Migration
+
+- [ ] Clone and inspect the current production repository main branch.
+- [ ] Inspect the old hero-fix commit and isolate only hero assets and references.
+- [ ] Apply the isolated hero fix while preserving the Operational Procedure Banner and all other current changes.
+- [ ] Verify, commit, and push only the current-repository hero fix.
