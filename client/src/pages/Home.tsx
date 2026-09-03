@@ -3,7 +3,7 @@ import {
   Shield, Bell, Monitor, Camera, Zap, Flame, DoorOpen, Home as HomeIcon,
   Cpu, Wrench, Check, Calendar, ArrowRight, Star, ChevronDown,
   Building2, Factory, ShoppingBag, Warehouse, Banknote, GraduationCap,
-  HeartPulse, Radio, HardHat, Crown, Phone,
+  HeartPulse, Radio, Crown, Phone,
 } from "lucide-react";
 import {
   Accordion,
@@ -34,8 +34,8 @@ const industryIcons: Record<string, React.ComponentType<{ className?: string }>>
   "Residential": HomeIcon, "Corporate Offices": Building2, "Banks": Banknote,
   "Retail": ShoppingBag, "Factories": Factory, "Warehouses": Warehouse,
   "Educational Institutions": GraduationCap, "Healthcare": HeartPulse,
-  "Telecommunication Infrastructure": Radio, "Construction Sites": HardHat,
-  "Luxury Homes": Crown,
+  "Telecommunication Infrastructure": Radio, "Restaurants & Cafes": ShoppingBag,
+  "Hotels & Apartments": Building2, "Luxury Homes": Crown,
 };
 
 export default function Home() {
@@ -219,7 +219,7 @@ export default function Home() {
             center
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
-            {[...primaryServices.slice(0, 3), ...secondaryServices].map((service, i) => {
+            {[...primaryServices.slice(0, 3), ...secondaryServices].filter((service) => service.title !== "Smart Security Solutions").map((service, i) => {
               const Icon = iconMap[service.icon] || Shield;
               return (
                 <motion.a

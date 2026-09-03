@@ -135,7 +135,7 @@ export const solutions = [
 
 export const industries = [
   "Residential", "Corporate Offices", "Banks", "Retail", "Factories", "Warehouses",
-  "Educational Institutions", "Healthcare", "Telecommunication Infrastructure", "Construction Sites", "Luxury Homes",
+  "Educational Institutions", "Healthcare", "Telecommunication Infrastructure", "Restaurants & Cafes", "Hotels & Apartments", "Luxury Homes",
 ];
 
 export const trustIndicators = [
