@@ -247,7 +247,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </button>
         )}
         <a
-          href="https://wa.me/15551002470"
+          href="https://wa.me/923001457911"
           target="_blank"
           rel="noopener noreferrer"
           className="w-12 h-12 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform duration-200"
@@ -256,7 +256,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <MessageCircle className="w-5 h-5" />
         </a>
         <a
-          href="tel:+15551002470"
+          href="tel:042111457911"
           className="w-12 h-12 rounded-full btn-gradient flex items-center justify-center text-white shadow-lg shadow-[#CC0000]/30 hover:scale-110 transition-transform duration-200"
           aria-label="Call us"
         >
