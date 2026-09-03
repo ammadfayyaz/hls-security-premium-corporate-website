@@ -62,6 +62,51 @@
 - [x] Add a mobile-only banner variant while preserving the existing desktop banner and section styling.
 - [x] Verify desktop/mobile rendering and build health, then save a checkpoint.
 
+## Push Mobile Banner to Production GitHub
+
+- [x] Refresh and inspect the current production main branch.
+- [ ] Restore the exact desktop hero, mobile hero, desktop procedure banner, and new mobile procedure banner assets.
+- [ ] Replace only their four `/manus-storage/` source paths with repository-local paths.
+- [ ] Verify, commit, push, and confirm the new remote commit SHA.
+
+## Homepage Tab Updates
+
+- [x] Remove Smart Security Solutions from Complete Security Solutions.
+- [x] Add Hotels & Apartments to Industries We Protect.
+- [x] Rename Construction Sites to Restaurants & Cafes.
+- [x] Verify tab behavior and production build, then save a checkpoint.
+
+## Persist Homepage Tab Updates to Production GitHub
+
+- [ ] Refresh and inspect the current production main branch.
+- [ ] Apply only the verified Home.tsx and industries data changes.
+- [ ] Preserve all repository-local banners, verify the build, and push the new commit.
+
+## Floating Contact Link Verification
+
+- [x] Verify the WhatsApp target is https://wa.me/923001457911.
+- [x] Verify the call target is tel:042111457911.
+- [x] Run validation checks and create a new checkpoint if permitted.
+
+## Contact Link No-Op Verification
+
+- [ ] Confirm the requested WhatsApp and telephone targets are already present.
+- [ ] Confirm no stale US contact-link targets remain.
+- [ ] Revalidate optimized asset sizes and production build.
+- [ ] Create a checkpoint if synchronization and media constraints permit.
+
+## Production-Safe Banner Optimization
+
+- [ ] Inventory the four oversized source images and preserve external backup copies.
+- [ ] Create same-dimension WebP variants below 1 MB with visually indistinguishable quality.
+- [ ] Update Manus and production GitHub references to normal repository-local paths.
+- [ ] Verify desktop/mobile heroes, desktop/mobile procedure banners, and contact links.
+- [ ] Run TypeScript and production builds successfully.
+- [ ] Remove redundant original project copies only after verification.
+- [ ] Commit and push the optimized assets plus Layout.tsx contact links to GitHub main.
+- [ ] Verify the live Netlify deployment and then create the Manus checkpoint.
+- [ ] Report original/optimized sizes, dimensions, paths, and GitHub commit SHA.
+
 ## Current Production Repository Hero Migration
 
 - [ ] Clone and inspect the current production repository main branch.
