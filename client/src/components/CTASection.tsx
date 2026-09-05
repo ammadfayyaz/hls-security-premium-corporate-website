@@ -54,7 +54,7 @@ export default function CTASection({
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </a>
             <a
-              href="tel:+15551002470"
+              href="tel:042111457911"
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl glass text-white text-base font-heading font-semibold hover:border-[#CC0000]/30 transition-all duration-200"
             >
               {secondaryButtonText}

@@ -109,6 +109,13 @@
 - [x] Verify responsive section order and production build.
 - [x] Create the updated checkpoint.
 
+## CTA and Footer Contact Verification
+
+- [x] Verify the CTA telephone link uses tel:042111457911.
+- [x] Verify the footer phone, Lahore address, and business hours match the requested text.
+- [x] Confirm no stale US contact values remain in the affected components.
+- [x] Run TypeScript and production-build checks, then create a checkpoint.
+
 ## Production-Safe Banner Optimization
 
 - [ ] Inventory the four oversized source images and preserve external backup copies.
