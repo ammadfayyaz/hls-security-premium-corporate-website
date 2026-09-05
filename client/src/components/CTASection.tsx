@@ -5,6 +5,8 @@ interface CTASectionProps {
   headline?: string;
   buttonText?: string;
   secondaryButtonText?: string;
+  primaryHref?: string;
+  primaryExternal?: boolean;
 }
 
 /**
@@ -15,6 +17,8 @@ export default function CTASection({
   headline = "Ready to Secure What Matters Most?",
   buttonText = "Book Your Free Consultation",
   secondaryButtonText = "Speak to a Security Expert",
+  primaryHref = "/contact",
+  primaryExternal = false,
 }: CTASectionProps) {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
@@ -46,7 +50,9 @@ export default function CTASection({
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="/contact"
+              href={primaryHref}
+              target={primaryExternal ? "_blank" : undefined}
+              rel={primaryExternal ? "noopener noreferrer" : undefined}
               className="btn-gradient inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white text-base font-heading font-semibold group"
             >
               <Calendar className="w-5 h-5" />

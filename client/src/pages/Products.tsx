@@ -8,6 +8,7 @@ import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import LeadForm from "@/components/LeadForm";
 import { productCategories } from "@/lib/data";
+import { getProductQuoteWhatsAppUrl } from "@/lib/whatsapp";
 import SEO from "@/components/SEO";
 
 /**
@@ -217,7 +218,10 @@ export default function Products() {
                     </dl>
                   </div>
                   <a
-                    href="/contact"
+                    href={getProductQuoteWhatsAppUrl(product.name)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Request a WhatsApp quote for ${product.name}`}
                     className="inline-flex items-center gap-1 text-sm font-heading font-semibold text-[#CC0000] hover:text-[#E60000] transition-colors group"
                   >
                     Request Quote
@@ -287,6 +291,7 @@ export default function Products() {
               title="Request a Product Quote"
               subtitle="Select your products and we'll prepare a custom quote for you."
               ctaText="Request Quote"
+              whatsappProductName={selectedProduct !== null ? category.products[selectedProduct].name : category.name}
             />
           </div>
         </div>
@@ -295,6 +300,8 @@ export default function Products() {
       <CTASection
         headline="Need Help Choosing the Right Products?"
         buttonText="Schedule a Consultation"
+        primaryHref={getProductQuoteWhatsAppUrl(selectedProduct !== null ? category.products[selectedProduct].name : category.name)}
+        primaryExternal
       />
     </div>
   );

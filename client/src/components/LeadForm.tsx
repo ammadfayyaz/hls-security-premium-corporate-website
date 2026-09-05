@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Loader2, Send } from "lucide-react";
+import { getProductQuoteWhatsAppUrl } from "@/lib/whatsapp";
 
 interface LeadFormProps {
   variant?: "card" | "inline";
   title?: string;
   subtitle?: string;
   ctaText?: string;
+  whatsappProductName?: string;
 }
 
 /**
@@ -18,12 +20,23 @@ export default function LeadForm({
   title = "Request a Free Security Assessment",
   subtitle = "Fill out the form below and our security experts will contact you within 24 hours.",
   ctaText = "Request Assessment",
+  whatsappProductName,
 }: LeadFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (whatsappProductName) {
+      window.open(
+        getProductQuoteWhatsAppUrl(whatsappProductName),
+        "_blank",
+        "noopener,noreferrer",
+      );
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setLoading(false);

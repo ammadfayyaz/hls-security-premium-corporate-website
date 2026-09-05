@@ -116,6 +116,14 @@
 - [x] Confirm no stale US contact values remain in the affected components.
 - [x] Run TypeScript and production-build checks, then create a checkpoint.
 
+## Product Quote WhatsApp Conversion
+
+- [x] Audit every product-page, product-card, category, homepage, and equivalent quotation CTA.
+- [x] Add a shared helper that creates a product-specific prefilled WhatsApp quotation message.
+- [x] Update only product-related quotation destinations while preserving design and Contact page behavior.
+- [x] Test representative product names, stale Contact links, external-target behavior, and production build.
+- [x] Create a checkpoint and report every modified component or file.
+
 ## Production-Safe Banner Optimization
 
 - [ ] Inventory the four oversized source images and preserve external backup copies.
