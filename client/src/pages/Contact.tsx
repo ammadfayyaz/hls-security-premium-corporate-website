@@ -100,7 +100,7 @@ export default function Contact() {
                 <MessageCircle className="w-6 h-6 text-[#25D366]" />
               </div>
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-2">WhatsApp</h3>
-              <a href="https://wa.me/15551002470" target="_blank" rel="noopener noreferrer" className="text-lg text-gray-300 hover:text-[#25D366] transition-colors">
+              <a href="https://wa.me/923001457911" target="_blank" rel="noopener noreferrer" className="text-lg text-gray-300 hover:text-[#25D366] transition-colors">
                 Chat with us
               </a>
               <p className="text-xs text-gray-500 mt-1">Quick messaging</p>

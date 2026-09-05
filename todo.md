@@ -95,6 +95,13 @@
 - [ ] Revalidate optimized asset sizes and production build.
 - [ ] Create a checkpoint if synchronization and media constraints permit.
 
+## Contact Page WhatsApp Link Verification
+
+- [x] Verify the Contact page WhatsApp target uses the correct business number.
+- [x] Normalize the URL to WhatsApp's digits-only wa.me format if necessary.
+- [x] Confirm site-wide WhatsApp link consistency and no stale US targets.
+- [x] Run TypeScript and production-build checks, then create a checkpoint.
+
 ## Production-Safe Banner Optimization
 
 - [ ] Inventory the four oversized source images and preserve external backup copies.
