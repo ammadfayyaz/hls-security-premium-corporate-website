@@ -127,6 +127,38 @@ export default function Contact() {
         </div>
       </section>
 
+      {/* Site Survey Request */}
+      <section className="py-24 bg-[#0B0B0B] border-y border-white/5">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <SectionHeading
+                eyebrow="Site Survey"
+                title="Request a Site Survey"
+                subtitle="Our security experts will visit your property, assess your needs, and design a custom security solution — completely free."
+              />
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="glass rounded-xl p-5">
+                  <Calendar className="w-5 h-5 text-[#CC0000] mb-2" />
+                  <div className="text-sm font-heading font-semibold text-white">Flexible Scheduling</div>
+                  <div className="text-xs text-gray-500">We work around your hours</div>
+                </div>
+                <div className="glass rounded-xl p-5">
+                  <FileText className="w-5 h-5 text-[#CC0000] mb-2" />
+                  <div className="text-sm font-heading font-semibold text-white">Detailed Report</div>
+                  <div className="text-xs text-gray-500">Full assessment included</div>
+                </div>
+              </div>
+            </div>
+            <LeadForm
+              title="Book Your Site Survey"
+              subtitle="Schedule a free on-site security assessment."
+              ctaText="Book Site Survey"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Contact Form + Info */}
       <section className="py-24">
         <div className="container">
@@ -260,37 +292,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Site Survey Request */}
-      <section className="py-24 bg-[#0B0B0B] border-y border-white/5">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <SectionHeading
-                eyebrow="Site Survey"
-                title="Request a Site Survey"
-                subtitle="Our security experts will visit your property, assess your needs, and design a custom security solution — completely free."
-              />
-              <div className="mt-8 grid grid-cols-2 gap-4">
-                <div className="glass rounded-xl p-5">
-                  <Calendar className="w-5 h-5 text-[#CC0000] mb-2" />
-                  <div className="text-sm font-heading font-semibold text-white">Flexible Scheduling</div>
-                  <div className="text-xs text-gray-500">We work around your hours</div>
-                </div>
-                <div className="glass rounded-xl p-5">
-                  <FileText className="w-5 h-5 text-[#CC0000] mb-2" />
-                  <div className="text-sm font-heading font-semibold text-white">Detailed Report</div>
-                  <div className="text-xs text-gray-500">Full assessment included</div>
-                </div>
-              </div>
-            </div>
-            <LeadForm
-              title="Book Your Site Survey"
-              subtitle="Schedule a free on-site security assessment."
-              ctaText="Book Site Survey"
-            />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

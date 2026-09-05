@@ -102,6 +102,13 @@
 - [x] Confirm site-wide WhatsApp link consistency and no stale US targets.
 - [x] Run TypeScript and production-build checks, then create a checkpoint.
 
+## Contact Page Section Reorder
+
+- [x] Identify the exact Site Survey and Get in Touch section boundaries.
+- [x] Move Site Survey above Get in Touch without content or styling changes.
+- [x] Verify responsive section order and production build.
+- [x] Create the updated checkpoint.
+
 ## Production-Safe Banner Optimization
 
 - [ ] Inventory the four oversized source images and preserve external backup copies.
