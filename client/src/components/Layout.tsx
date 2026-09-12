@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, MessageCircle, ChevronUp } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { submitInquiry } from "@/lib/inquiry";
 
 /**
  * HLS Security — Sentinel Noir Design System
@@ -21,7 +21,36 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterError, setNewsletterError] = useState("");
+  const newsletterSubmissionLock = useRef(false);
   const [location] = useLocation();
+
+  const handleNewsletterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (newsletterLoading || newsletterSubmitted || newsletterSubmissionLock.current) return;
+    newsletterSubmissionLock.current = true;
+    setNewsletterLoading(true);
+    setNewsletterError("");
+
+    try {
+      await submitInquiry({
+        formName: "Newsletter Subscription",
+        pageUrl: window.location.href,
+        fields: { Email: newsletterEmail },
+      });
+      setNewsletterLoading(false);
+      setNewsletterSubmitted(true);
+    } catch {
+      newsletterSubmissionLock.current = false;
+      setNewsletterLoading(false);
+      setNewsletterError(
+        "Unable to subscribe at this time. Please try again or contact us directly.",
+      );
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -211,17 +240,34 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <h4 className="font-display text-lg font-semibold text-white mb-1">Stay Security-Informed</h4>
               <p className="text-sm text-gray-400">Get security tips, threat alerts, and HLS updates.</p>
             </div>
-            <div className="flex gap-2 w-full md:w-auto">
+            <form onSubmit={handleNewsletterSubmit} className="flex gap-2 w-full md:w-auto">
               <input
+                name="email"
                 type="email"
+                required
+                value={newsletterEmail}
+                onChange={event => setNewsletterEmail(event.target.value)}
                 placeholder="Enter your email"
                 className="flex-1 md:w-64 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-[#CC0000]/50"
               />
-              <button className="btn-gradient px-5 py-2.5 rounded-lg text-white text-sm font-heading font-semibold whitespace-nowrap">
-                Subscribe
+              <button
+                type="submit"
+                disabled={newsletterLoading || newsletterSubmitted}
+                className="btn-gradient px-5 py-2.5 rounded-lg text-white text-sm font-heading font-semibold whitespace-nowrap disabled:opacity-70"
+              >
+                {newsletterLoading
+                  ? "Submitting..."
+                  : newsletterSubmitted
+                    ? "Subscribed"
+                    : "Subscribe"}
               </button>
-            </div>
+            </form>
           </div>
+          {newsletterError && (
+            <p role="alert" className="-mt-5 mb-8 text-sm text-red-400 text-right">
+              {newsletterError}
+            </p>
+          )}
 
           {/* Bottom Bar */}
           <div className="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">

@@ -154,6 +154,7 @@ export default function Contact() {
               title="Book Your Site Survey"
               subtitle="Schedule a free on-site security assessment."
               ctaText="Book Site Survey"
+              formName="Site Survey"
             />
           </div>
         </div>
@@ -242,6 +243,7 @@ export default function Contact() {
               title="Send Us a Message"
               subtitle="Fill out the form and our team will get back to you within 24 hours."
               ctaText="Send Message"
+              formName="Contact — Send Us a Message"
             />
           </div>
         </div>

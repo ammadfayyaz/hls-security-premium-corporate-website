@@ -428,7 +428,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <LeadForm />
+            <LeadForm formName="Homepage — Free Security Assessment" />
           </div>
         </div>
       </section>

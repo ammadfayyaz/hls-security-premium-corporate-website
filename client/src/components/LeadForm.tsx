@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Loader2, Send } from "lucide-react";
 import { getProductQuoteWhatsAppUrl } from "@/lib/whatsapp";
+import { submitInquiry } from "@/lib/inquiry";
 
 interface LeadFormProps {
   variant?: "card" | "inline";
@@ -9,6 +10,7 @@ interface LeadFormProps {
   subtitle?: string;
   ctaText?: string;
   whatsappProductName?: string;
+  formName?: string;
 }
 
 /**
@@ -21,11 +23,14 @@ export default function LeadForm({
   subtitle = "Fill out the form below and our security experts will contact you within 24 hours.",
   ctaText = "Request Assessment",
   whatsappProductName,
+  formName = title,
 }: LeadFormProps) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const submissionLock = useRef(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (whatsappProductName) {
@@ -37,11 +42,40 @@ export default function LeadForm({
       return;
     }
 
+    if (loading || submissionLock.current) return;
+    submissionLock.current = true;
     setLoading(true);
-    setTimeout(() => {
+    setSubmitError("");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const propertyType = form.elements.namedItem("propertyType") as HTMLSelectElement | null;
+    const serviceInterest = form.elements.namedItem("serviceInterest") as HTMLSelectElement | null;
+    const selectedText = (select: HTMLSelectElement | null) =>
+      select?.value ? select.selectedOptions[0]?.text ?? select.value : "";
+
+    try {
+      await submitInquiry({
+        formName,
+        pageUrl: window.location.href,
+        fields: {
+          "Customer Name": String(formData.get("name") ?? ""),
+          Phone: String(formData.get("phone") ?? ""),
+          Email: String(formData.get("email") ?? ""),
+          "Property Type": selectedText(propertyType),
+          "Service Interest": selectedText(serviceInterest),
+          Message: String(formData.get("message") ?? ""),
+        },
+      });
       setLoading(false);
       setSubmitted(true);
-    }, 1200);
+    } catch {
+      submissionLock.current = false;
+      setLoading(false);
+      setSubmitError(
+        "Unable to submit your request at this time. Please try again or contact us directly.",
+      );
+    }
   };
 
   const formContent = (
@@ -67,6 +101,7 @@ export default function LeadForm({
                 Full Name *
               </label>
               <input
+                name="name"
                 type="text"
                 required
                 placeholder="John Smith"
@@ -78,6 +113,7 @@ export default function LeadForm({
                 Phone Number *
               </label>
               <input
+                name="phone"
                 type="tel"
                 required
                 placeholder="+1 (555) 000-0000"
@@ -90,6 +126,7 @@ export default function LeadForm({
               Email Address *
             </label>
             <input
+              name="email"
               type="email"
               required
               placeholder="john@company.com"
@@ -102,6 +139,7 @@ export default function LeadForm({
                 Property Type
               </label>
               <select
+                name="propertyType"
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#CC0000]/50 focus:ring-1 focus:ring-[#CC0000]/30 transition-all"
               >
                 <option value="" className="bg-[#161616]">Select type</option>
@@ -116,6 +154,7 @@ export default function LeadForm({
                 Service Interest
               </label>
               <select
+                name="serviceInterest"
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#CC0000]/50 focus:ring-1 focus:ring-[#CC0000]/30 transition-all"
               >
                 <option value="" className="bg-[#161616]">Select service</option>
@@ -134,6 +173,7 @@ export default function LeadForm({
               Message
             </label>
             <textarea
+              name="message"
               rows={3}
               placeholder="Tell us about your security needs..."
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-[#CC0000]/50 focus:ring-1 focus:ring-[#CC0000]/30 transition-all resize-none"
@@ -156,6 +196,11 @@ export default function LeadForm({
               </>
             )}
           </button>
+          {submitError && (
+            <p role="alert" className="text-sm text-red-400 text-center">
+              {submitError}
+            </p>
+          )}
           <p className="text-xs text-gray-500 text-center">
             By submitting, you agree to be contacted by HLS Security. We respect your privacy.
           </p>
