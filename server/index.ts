@@ -3,6 +3,7 @@ import { createServer } from "http";
 import path from "path";
 import { fileURLToPath } from "url";
 import { inquiryInputSchema, sendInquiryEmail } from "./inquiry";
+import { createViteMiddlewareConfig } from "./vite";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,10 +38,7 @@ async function startServer() {
 
   if (process.env.NODE_ENV === "development") {
     const { createServer: createViteServer } = await import("vite");
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
+    const vite = await createViteServer(createViteMiddlewareConfig(server));
     app.use(vite.middlewares);
   } else {
     const staticPath = path.resolve(__dirname, "public");
