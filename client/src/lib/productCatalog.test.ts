@@ -64,6 +64,12 @@ describe("Security Alarm System product catalog", () => {
     },
   );
 
+  it("uses the requested Heat Detector detection type", () => {
+    const heatDetector = category?.products.find((item) => item.name === "Heat Detector");
+
+    expect(heatDetector?.specs["Detection Type"]).toBe("Rate-of-rise");
+  });
+
   it("removes the retired category wording from customer-facing source files", () => {
     const clientDirectory = fileURLToPath(new URL("../..", import.meta.url));
     const oldCategoryPattern = new RegExp(
