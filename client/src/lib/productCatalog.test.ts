@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { extname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -13,6 +13,18 @@ const addedProductNames = [
   "Water Leak Sensor",
 ];
 const removedProductNames = ["Outdoor Sensors", "Keypads"];
+const productImageMappings = [
+  ["Security Alarm System", "Control Panels", "/images/products/product-control-panels-hls.webp"],
+  ["Security Alarm System", "Motion Detectors", "/images/products/product-motion-detectors-hls.webp"],
+  ["Security Alarm System", "Door Sensors", "/images/products/product-door-sensors-hls.webp"],
+  ["Security Alarm System", "Glass Break Sensors", "/images/products/product-glass-break-sensors-hls.webp"],
+  ["Security Alarm System", "Smoke Sensors", "/images/products/product-smoke-sensors-hls.webp"],
+  ["Security Alarm System", "Heat Detector", "/images/products/product-heat-detector-hls.webp"],
+  ["Security Alarm System", "Gas Leak Detector", "/images/products/product-gas-leak-detector-hls.webp"],
+  ["Security Alarm System", "Water Leak Sensor", "/images/products/product-water-leak-sensor-hls.webp"],
+  ["Security Alarm System", "Sirens", "/images/products/product-sirens-hls.webp"],
+  ["Electric Fence", "Energizers", "/images/products/product-energizers-hls.webp"],
+] as const;
 
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -69,6 +81,19 @@ describe("Security Alarm System product catalog", () => {
 
     expect(heatDetector?.specs["Detection Type"]).toBe("Rate-of-rise");
   });
+
+  it.each(productImageMappings)(
+    "uses the supplied optimized image for %s / %s",
+    (targetCategory, productName, imagePath) => {
+      const product = productCategories
+        .find((item) => item.name === targetCategory)
+        ?.products.find((item) => item.name === productName);
+      const publicDirectory = fileURLToPath(new URL("../../public", import.meta.url));
+
+      expect(product?.image).toBe(imagePath);
+      expect(existsSync(join(publicDirectory, imagePath.replace(/^\//, "")))).toBe(true);
+    },
+  );
 
   it("removes the retired category wording from customer-facing source files", () => {
     const clientDirectory = fileURLToPath(new URL("../..", import.meta.url));
