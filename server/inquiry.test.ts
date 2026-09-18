@@ -13,7 +13,7 @@ const sampleInquiry = {
     Phone: "042-111-457-911",
     Email: "customer@example.com",
     "Property Type": "Commercial",
-    "Service Interest": "Intruder Alarm Systems",
+    "Service Interest": "Security Alarm System",
     Message: "Please survey our premises.",
     Empty: "",
   },
@@ -41,7 +41,7 @@ describe("inquiry email formatting", () => {
       new Date("2026-09-12T08:30:00.000Z"),
     );
 
-    expect(email.subject).toBe("NEW WEBSITE INQUIRY — Intruder Alarm Systems");
+    expect(email.subject).toBe("NEW WEBSITE INQUIRY — Security Alarm System");
     expect(email.text).toContain("Customer Name:\nTest Customer");
     expect(email.text).toContain("Website Page:\nhttps://hls.example/contact");
     expect(email.text).toContain("Form:\nSite Survey");

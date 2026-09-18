@@ -5,7 +5,7 @@
 
 export const primaryServices = [
   {
-    title: "Intruder Alarm Systems",
+    title: "Security Alarm System",
     description: "Advanced intrusion detection with intelligent sensors, control panels, and instant alerts to deter threats before they escalate.",
     icon: "bell",
     features: ["Wireless & wired sensors", "Smart control panels", "Real-time alerts", "Panic buttons"],
@@ -34,7 +34,7 @@ export const secondaryServices = [
 ];
 
 export const allServices = [
-  { title: "Intruder Alarm Installation", overview: "Professional design and installation of complete intruder alarm systems tailored to your property.", benefits: ["Custom system design", "Certified engineers", "Minimal disruption", "Full training included"], process: ["Site survey", "Risk assessment", "System design", "Professional installation", "Commissioning & training"], responseTime: "Installation within 5–7 business days", cta: "Request Installation" },
+  { title: "Security Alarm System Installation", overview: "Professional design and installation of complete security alarm systems tailored to your property.", benefits: ["Custom system design", "Certified engineers", "Minimal disruption", "Full training included"], process: ["Site survey", "Risk assessment", "System design", "Professional installation", "Commissioning & training"], responseTime: "Installation within 5–7 business days", cta: "Request Installation" },
   { title: "24/7 Monitoring", overview: "Round-the-clock professional monitoring with immediate alarm verification and response dispatch.", benefits: ["Always-on protection", "Instant verification", "Priority dispatch", "Detailed incident logs"], process: ["Alarm triggered", "Signal received", "Operator verification", "Response dispatched", "Incident report"], responseTime: "Signal received in under 30 seconds", cta: "Activate Monitoring" },
   { title: "Armed Response", overview: "Licensed armed response teams dispatched to your location upon verified alarm activation.", benefits: ["Rapid deployment", "Licensed officers", "Threat neutralization", "Authority coordination"], process: ["Alarm verified", "Nearest unit dispatched", "Arrival & assessment", "Threat resolution", "Incident report"], responseTime: "Average arrival within 8 minutes", cta: "Activate Armed Response" },
   { title: "Preventive Maintenance", overview: "Scheduled maintenance visits to ensure all security systems operate at peak performance.", benefits: ["Reduced false alarms", "Extended equipment life", "System reliability", "Compliance assurance"], process: ["Schedule visit", "Full system inspection", "Component testing", "Calibration & updates", "Maintenance report"], responseTime: "Quarterly visits included", cta: "Schedule Maintenance" },
@@ -47,15 +47,17 @@ export const allServices = [
 
 export const productCategories = [
   {
-    name: "Intruder Alarm Systems",
+    name: "Security Alarm System",
     icon: "bell",
     products: [
       { name: "Control Panels", description: "Intelligent control panels managing all alarm sensors and zones with programmable logic.", image: "/images/products/product-control-panel_0dae52ff.jpg", features: ["Up to 96 zones", "Wireless & wired support", "Remote programming", "Event logging"], specs: { "Power": "12V DC", "Backup": "7Ah battery", "Zones": "Up to 96", "Connectivity": "WiFi, GSM, IP" } },
       { name: "Motion Detectors", description: "PIR and dual-tech motion sensors with pet immunity and anti-mask technology.", image: "/images/products/product-motion-detector_fe0fcfcb.jpg", features: ["Pet immunity up to 40kg", "Anti-mask detection", "Dual technology", "12m range"], specs: { "Range": "12 meters", "Detection": "PIR + Microwave", "Pet Immunity": "Up to 40kg", "Power": "3V lithium" } },
       { name: "Door Sensors", description: "Magnetic contact sensors for doors and windows with tamper protection.", image: "/images/products/product-door-sensor_4f1e4276.jpg", features: ["Reed switch technology", "Tamper protection", "Wired or wireless", "Surface or flush mount"], specs: { "Gap": "Up to 50mm", "Type": "Reed switch", "Tamper": "Yes", "Power": "3V or wired" } },
       { name: "Glass Break Sensors", description: "Acoustic glass break detectors recognizing breaking glass patterns across frequencies.", image: "/images/products/product-glass-break-sensor_a327eaac.jpg", features: ["6m detection range", "Audio analysis", "Multi-pane detection", "False alarm filtering"], specs: { "Range": "6 meters", "Detection": "Acoustic", "Frequencies": "Low + High", "Power": "3V lithium" } },
-      { name: "Outdoor Sensors", description: "Weather-resistant perimeter sensors for outdoor intrusion detection.", image: "/images/products/product-outdoor-sensor_0fd13f57.jpg", features: ["IP65 rated", "Anti-mask", "Pet immunity", "40m range"], specs: { "Range": "Up to 40m", "Rating": "IP65", "Detection": "Dual-tech", "Power": "9V or wired" } },
-      { name: "Keypads", description: "Backlit keypads for system control with proximity tag and app integration.", image: "/images/products/product-keypad_29fa51ad.jpg", features: ["Backlit display", "Proximity tags", "App control", "Panic keys"], specs: { "Display": "Backlit LCD", "Tags": "Proximity", "Keys": "Panic + Fire", "Power": "12V DC" } },
+      { name: "Smoke Sensors", description: "Smoke sensor options for integration into professionally designed HLS security alarm solutions.", image: "/images/products/product-smoke-detector_1fb36b49.jpg", features: [], specs: {} },
+      { name: "Heat Detector", description: "Heat detector options for integration into professionally designed HLS security alarm solutions.", image: "", features: [], specs: {} },
+      { name: "Gas Leak Detector", description: "Gas leak detector options for integration into professionally designed HLS security alarm solutions.", image: "", features: [], specs: {} },
+      { name: "Water Leak Sensor", description: "Water leak sensor options for integration into professionally designed HLS security alarm solutions.", image: "", features: [], specs: {} },
       { name: "Sirens", description: "High-output indoor and outdoor sirens with strobe lights for visual deterrence.", image: "/images/products/product-siren_2a1ad663.jpg", features: ["118dB output", "Strobe light", "Tamper protected", "Weather resistant"], specs: { "Output": "118dB", "Strobe": "Yes", "Tamper": "Yes", "Rating": "IP54" } },
       { name: "Panic Buttons", description: "Wireless panic buttons for instant emergency alerts and response dispatch.", image: "/images/products/product-panic-button_a371132c.jpg", features: ["Wireless", "Wearable options", "Long battery life", "Silent alarm mode"], specs: { "Type": "Wireless", "Battery": "3 years", "Range": "100m", "Mounting": "Wall or wearable" } },
       { name: "Wireless Devices", description: "Complete range of wireless alarm components for flexible, cable-free installation.", image: "/images/products/product-wireless-device_1fcd3988.jpg", features: ["Two-way communication", "Encryption", "10-year battery", "Signal supervision"], specs: { "Frequency": "868MHz", "Encryption": "AES-128", "Battery": "Up to 10 years", "Supervision": "Continuous" } },
@@ -120,7 +122,7 @@ export const productCategories = [
 ];
 
 export const solutions = [
-  { name: "Residential Security", challenges: ["Burglary and home invasion risks", "False alarm management", "Family safety while away", "Integration with smart home"], technologies: ["Intruder alarm systems", "CCTV with remote access", "Smart locks", "24/7 monitoring"], benefits: ["Complete home protection", "Remote monitoring", "Instant alerts", "Insurance benefits"] },
+  { name: "Residential Security", challenges: ["Burglary and home invasion risks", "False alarm management", "Family safety while away", "Integration with smart home"], technologies: ["Security alarm systems", "CCTV with remote access", "Smart locks", "24/7 monitoring"], benefits: ["Complete home protection", "Remote monitoring", "Instant alerts", "Insurance benefits"] },
   { name: "Commercial Security", challenges: ["Theft and vandalism", "Employee safety", "Access management", "After-hours protection"], technologies: ["Access control", "CCTV surveillance", "Intrusion detection", "Armed response"], benefits: ["Reduced losses", "Employee safety", "Access audit trails", "24/7 protection"] },
   { name: "Industrial Security", challenges: ["Large perimeter protection", "Equipment theft", "Safety compliance", "Hazardous area monitoring"], technologies: ["Electric fencing", "Thermal cameras", "Perimeter detection", "Monitoring"], benefits: ["Perimeter security", "Theft prevention", "Compliance", "Reduced incidents"] },
   { name: "Retail Security", challenges: ["Shoplifting", "Employee theft", "Inventory shrinkage", "Customer safety"], technologies: ["CCTV with analytics", "EAS integration", "Panic buttons", "Monitoring"], benefits: ["Reduced shrinkage", "Theft deterrence", "Staff safety", "Evidence capture"] },
@@ -173,7 +175,7 @@ export const testimonials = [
 ];
 
 export const faqs = [
-  { question: "What makes HLS different from other security companies?", answer: "HLS provides complete protection — not just installation. We combine advanced intruder alarm systems with professional 24/7 monitoring and rapid armed response. This means every alarm is verified by a live operator and met with immediate physical response, not just a phone call." },
+  { question: "What makes HLS different from other security companies?", answer: "HLS provides complete protection — not just installation. We combine advanced security alarm systems with professional 24/7 monitoring and rapid armed response. This means every alarm is verified by a live operator and met with immediate physical response, not just a phone call." },
   { question: "How quickly does armed response arrive?", answer: "Our armed response teams are strategically positioned across our service areas. The average response time is under 8 minutes from alarm verification. All our officers are licensed, trained, and GPS-tracked for accountability." },
   { question: "Do you offer security solutions for both homes and businesses?", answer: "Yes. HLS designs and installs security systems for residential, commercial, industrial, and enterprise clients. From single-family homes to multi-site corporate facilities, we tailor every solution to the specific needs and risk profile of the property." },
   { question: "What happens when an alarm is triggered?", answer: "When an alarm activates, the signal is instantly transmitted to our 24/7 monitoring center. A live operator verifies the alarm (often using video verification), and if confirmed, immediately dispatches armed response and contacts you and your emergency contacts." },

@@ -21,7 +21,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const serviceImages: Record<string, string> = {
-  "Intruder Alarm Installation": "/images/services/alarm-system.jpg",
+  "Security Alarm System Installation": "/images/services/alarm-system.jpg",
   "24/7 Monitoring": "/images/services/monitoring-center.jpg",
   "Armed Response": "/images/services/armed-response.jpg",
   "Preventive Maintenance": "/images/services/cctv-camera.jpg",
@@ -40,7 +40,7 @@ export default function Services() {
     <div className="bg-background">
     <SEO 
       title="Security Services — Installation, Monitoring, Armed Response & Maintenance"
-      description="HLS Security offers professional security services including intruder alarm installation, 24/7 monitoring, armed response, preventive maintenance, security audits, and system upgrades."
+      description="HLS Security offers professional security services including security alarm system installation, 24/7 monitoring, armed response, preventive maintenance, security audits, and system upgrades."
       path="/services"
     />
       {/* Page Hero */}

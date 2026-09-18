@@ -22,7 +22,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const categoryImages: Record<string, string> = {
-  "Intruder Alarm Systems": "/images/products/product-control-panel_0dae52ff.jpg",
+  "Security Alarm System": "/images/products/product-control-panel_0dae52ff.jpg",
   "CCTV Systems": "/images/products/product-ptz-camera_3d15e3b3.jpg",
   "Electric Fence": "/images/products/product-energizer_8348abe5.jpg",
   "Fire Detection": "/images/products/product-smoke-detector_1fb36b49.jpg",
@@ -40,7 +40,7 @@ export default function Products() {
     <div className="bg-background">
     <SEO 
       title="Security Products — Alarm Systems, CCTV, Fire Detection & More"
-      description="Explore HLS Security's range of enterprise-grade security products including intruder alarms, CCTV cameras, electric fences, fire detection, gate automation, and smart home systems."
+      description="Explore HLS Security's range of enterprise-grade products including security alarm systems, CCTV cameras, electric fences, fire detection, gate automation, and smart home systems."
       path="/products"
     />
       {/* Page Hero */}
@@ -195,28 +195,32 @@ export default function Products() {
                   <p className="text-sm text-gray-400 mb-4 leading-relaxed">
                     {product.description}
                   </p>
-                  <div className="space-y-1.5 mb-4">
-                    {product.features.map((feat, j) => (
-                      <div key={j} className="flex items-center gap-2 text-xs text-gray-300">
-                        <Check className="w-3.5 h-3.5 text-[#CC0000] flex-shrink-0" />
-                        {feat}
-                      </div>
-                    ))}
-                  </div>
-                  {/* Specs */}
-                  <div className="glass rounded-lg p-4 mb-4">
-                    <h5 className="text-xs font-heading font-semibold text-[#CC0000] uppercase tracking-wider mb-2">
-                      Specifications
-                    </h5>
-                    <dl className="space-y-1">
-                      {Object.entries(product.specs).map(([key, value]) => (
-                        <div key={key} className="flex justify-between text-xs">
-                          <dt className="text-gray-500">{key}</dt>
-                          <dd className="text-gray-300 font-medium">{value}</dd>
+                  {product.features.length > 0 && (
+                    <div className="space-y-1.5 mb-4">
+                      {product.features.map((feat, j) => (
+                        <div key={j} className="flex items-center gap-2 text-xs text-gray-300">
+                          <Check className="w-3.5 h-3.5 text-[#CC0000] flex-shrink-0" />
+                          {feat}
                         </div>
                       ))}
-                    </dl>
-                  </div>
+                    </div>
+                  )}
+                  {/* Specs */}
+                  {Object.keys(product.specs).length > 0 && (
+                    <div className="glass rounded-lg p-4 mb-4">
+                      <h5 className="text-xs font-heading font-semibold text-[#CC0000] uppercase tracking-wider mb-2">
+                        Specifications
+                      </h5>
+                      <dl className="space-y-1">
+                        {Object.entries(product.specs).map(([key, value]) => (
+                          <div key={key} className="flex justify-between text-xs">
+                            <dt className="text-gray-500">{key}</dt>
+                            <dd className="text-gray-300 font-medium">{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  )}
                   <a
                     href={getProductQuoteWhatsAppUrl(product.name)}
                     target="_blank"

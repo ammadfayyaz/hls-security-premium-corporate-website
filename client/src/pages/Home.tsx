@@ -233,7 +233,7 @@ export default function Home() {
           <SectionHeading
             eyebrow="Complete Security Solutions"
             title="Explore Our Full Range of Services"
-            subtitle="From intruder alarms to smart automation — everything you need for total protection."
+            subtitle="From security alarm systems to smart automation — everything you need for total protection."
             center
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">

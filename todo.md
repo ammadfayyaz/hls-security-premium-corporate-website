@@ -33,7 +33,7 @@
 - [x] Re-check the live homepage HTML and hero asset responses after redeployment.
 - [x] Inspect browser console and network behavior for hero-loading failures.
 - [x] Compare Netlify output with GitHub source and build output.
-- [ ] Apply or document the minimal corrective action and verify the live result.
+- [x] Document the minimal corrective action; live Netlify verification is deferred by the user's instruction not to deploy now.
 
 ## Synchronization Recovery and GitHub Propagation
 
@@ -144,7 +144,7 @@
 - [x] Run TypeScript and production builds successfully.
 - [x] Remove redundant original project copies only after verification.
 - [x] Commit and push the optimized assets plus Layout.tsx contact links to GitHub main.
-- [ ] Verify the live Netlify deployment and then create the Manus checkpoint.
+- [x] Defer live Netlify deployment verification by explicit user instruction and preserve the verified Manus checkpoint.
 - [x] Report original/optimized sizes, dimensions, paths, and GitHub commit SHA.
 
 ## Current Production Repository Hero Migration
@@ -153,3 +153,14 @@
 - [x] Inspect the old hero-fix commit and isolate only hero assets and references.
 - [x] Apply the isolated hero fix while preserving the Operational Procedure Banner and all other current changes.
 - [x] Verify, commit, and push only the current-repository hero fix.
+
+## Security Alarm System Product Catalog Update
+
+- [x] Audit centralized category data, product rendering, SEO metadata, forms, footer links, and compatibility identifiers.
+- [x] Rename the customer-facing category to Security Alarm System across the website.
+- [x] Remove Outdoor Sensors and Keypads from the shared product data.
+- [x] Add Smoke Sensors, Heat Detector, Gas Leak Detector, and Water Leak Sensor without invented specifications or assets.
+- [x] Preserve product-specific WhatsApp quotation behavior and the existing category index and routes.
+- [x] Add catalog, terminology, and new-product WhatsApp regression coverage.
+- [x] Verify desktop and mobile layouts, category switching, browser console, TypeScript, tests, and production build.
+- [x] Do not deploy to Netlify, per the user's explicit instruction.

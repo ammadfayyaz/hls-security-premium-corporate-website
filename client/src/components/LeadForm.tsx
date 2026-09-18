@@ -158,7 +158,7 @@ export default function LeadForm({
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#CC0000]/50 focus:ring-1 focus:ring-[#CC0000]/30 transition-all"
               >
                 <option value="" className="bg-[#161616]">Select service</option>
-                <option value="intruder" className="bg-[#161616]">Intruder Alarm Systems</option>
+                <option value="intruder" className="bg-[#161616]">Security Alarm System</option>
                 <option value="monitoring" className="bg-[#161616]">24/7 Monitoring</option>
                 <option value="armed" className="bg-[#161616]">Armed Response</option>
                 <option value="cctv" className="bg-[#161616]">CCTV Surveillance</option>

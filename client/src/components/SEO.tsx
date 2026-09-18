@@ -23,7 +23,7 @@ export default function SEO({
       ? `${title} | HLS Security`
       : "HLS Security — Professional Electronic Security, Monitoring & Armed Response";
     const desc = description ||
-      "HLS provides premium electronic security solutions including intruder alarm systems, 24/7 professional monitoring, and rapid armed response for residential, commercial, and enterprise clients.";
+      "HLS provides premium electronic security solutions including security alarm systems, 24/7 professional monitoring, and rapid armed response for residential, commercial, and enterprise clients.";
     const url = `https://hls-security.com${path}`;
 
     // Update title
@@ -41,7 +41,7 @@ export default function SEO({
     };
 
     updateMeta("description", desc);
-    updateMeta("keywords", "electronic security, intruder alarms, alarm monitoring, armed response, CCTV surveillance, electric fence, fire detection, gate automation, home automation, smart security");
+    updateMeta("keywords", "electronic security, security alarm systems, alarm monitoring, armed response, CCTV surveillance, electric fence, fire detection, gate automation, home automation, smart security");
     updateMeta("robots", "index, follow");
     updateMeta("author", "HLS Security");
 
@@ -80,7 +80,7 @@ export default function SEO({
       "@context": "https://schema.org",
       "@type": "Organization",
       name: "HLS Security",
-      description: "Premium electronic security solutions including intruder alarm systems, 24/7 monitoring, and armed response.",
+      description: "Premium electronic security solutions including security alarm systems, 24/7 monitoring, and armed response.",
       url: "https://hls-security.com",
       logo: "https://hls-security.com/logo.png",
       contactPoint: {

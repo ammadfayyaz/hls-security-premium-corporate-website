@@ -207,7 +207,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-4">Services</h4>
               <ul className="space-y-3">
-                {["Intruder Alarms", "24/7 Monitoring", "Armed Response", "CCTV Surveillance", "Fire Detection", "Gate Automation"].map((service) => (
+                {["Security Alarm System", "24/7 Monitoring", "Armed Response", "CCTV Surveillance", "Fire Detection", "Gate Automation"].map((service) => (
                   <li key={service}>
                     <Link href="/services" className="text-sm text-gray-400 hover:text-[#CC0000] transition-colors">
                       {service}
