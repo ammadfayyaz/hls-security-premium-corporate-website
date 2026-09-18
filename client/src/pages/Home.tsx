@@ -150,6 +150,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What We Protect Against Banner */}
+      <section className="bg-[#0B0B0B] pt-10 md:pt-14">
+        <div className="container">
+          <img
+            src="/images/banners/hls-what-we-protect-banner.webp"
+            alt="What HLS protects you against: burglary, fire, medical emergencies, and panic situations"
+            className="hidden md:block w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
+            loading="lazy"
+          />
+          <img
+            src="/images/banners/hls-what-we-protect-banner-mobile.webp"
+            alt="What HLS protects you against: burglary, fire, medical emergencies, and panic situations"
+            className="block md:hidden w-full h-auto rounded-2xl border border-white/10 shadow-2xl"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
       {/* Operational Procedure Banner */}
       <section className="bg-[#0B0B0B] py-10 md:py-14">
         <div className="container">

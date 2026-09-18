@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { handler } from "./inquiry";
+import { handler } from "../netlify/functions/inquiry";
 
 const validBody = JSON.stringify({
   formName: "Contact — Send Us a Message",
