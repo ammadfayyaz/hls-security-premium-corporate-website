@@ -164,3 +164,12 @@
 - [x] Add catalog, terminology, and new-product WhatsApp regression coverage.
 - [x] Verify desktop and mobile layouts, category switching, browser console, TypeScript, tests, and production build.
 - [x] Do not deploy to Netlify, per the user's explicit instruction.
+
+## Security Alarm System Product Content Completion
+
+- [x] Audit the repository for verified model-level data and matching product assets.
+- [x] Add concise professional descriptions to Smoke Sensors, Heat Detector, Gas Leak Detector, and Water Leak Sensor.
+- [x] Add exactly four relevant feature bullets and four category-level specification rows to each product.
+- [x] Avoid unsupported model numbers, certifications, ranges, voltages, thresholds, decibel ratings, IP ratings, and protocols.
+- [x] Preserve the existing card design and product-specific WhatsApp quotation behavior.
+- [x] Verify 67 tests, TypeScript, production build, desktop/mobile layouts, rendered content counts, and browser console.

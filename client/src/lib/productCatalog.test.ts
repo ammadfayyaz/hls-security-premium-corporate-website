@@ -46,6 +46,24 @@ describe("Security Alarm System product catalog", () => {
     },
   );
 
+  it.each(addedProductNames)(
+    "provides complete professional card content for %s",
+    (productName) => {
+      const product = category?.products.find((item) => item.name === productName);
+
+      expect(product).toBeDefined();
+      expect(product?.description.trim().length).toBeGreaterThan(80);
+      expect(product?.features).toHaveLength(4);
+      expect(Object.entries(product?.specs ?? {})).toHaveLength(4);
+      expect(product?.features.every((feature) => feature.trim().length > 0)).toBe(true);
+      expect(
+        Object.entries(product?.specs ?? {}).every(
+          ([name, value]) => name.trim().length > 0 && value.trim().length > 0,
+        ),
+      ).toBe(true);
+    },
+  );
+
   it("removes the retired category wording from customer-facing source files", () => {
     const clientDirectory = fileURLToPath(new URL("../..", import.meta.url));
     const oldCategoryPattern = new RegExp(
