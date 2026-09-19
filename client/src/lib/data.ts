@@ -141,7 +141,7 @@ export const industries = [
 ];
 
 export const trustIndicators = [
-  { value: "15+", label: "Years of Experience" },
+  { value: "20+", label: "Years of Experience" },
   { value: "24/7", label: "Professional Monitoring" },
   { value: "<8min", label: "Rapid Armed Response" },
   { value: "100%", label: "Certified Engineers" },
