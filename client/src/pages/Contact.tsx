@@ -44,6 +44,16 @@ export default function Contact() {
             <p className="text-lg text-gray-400 leading-relaxed">
               Reach out to our security experts. Whether you need a free assessment, a quote, or emergency assistance — we're here 24/7.
             </p>
+            <a
+              href="https://wa.me/923001457911"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat with an HLS Security expert on WhatsApp"
+              className="btn-gradient mt-7 inline-flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-xl text-white text-sm font-heading font-semibold shadow-lg shadow-[#CC0000]/20 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]"
+            >
+              <MessageCircle className="w-5 h-5 text-white" aria-hidden="true" />
+              Chat with Security Expert
+            </a>
           </motion.div>
         </div>
       </section>
