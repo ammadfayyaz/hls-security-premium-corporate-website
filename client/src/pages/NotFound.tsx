@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle, Home } from "lucide-react";
 import { useLocation } from "wouter";
+import SEO from "@/components/SEO";
 
 export default function NotFound() {
   const [, setLocation] = useLocation();
@@ -12,6 +13,7 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#0B0B0B]">
+      <SEO title="Page Not Found" description="This HLS Security page could not be found." path="/404" robots="noindex, follow" />
       <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/5 backdrop-blur-sm border border-white/10">
         <CardContent className="pt-8 pb-8 text-center">
           <div className="flex justify-center mb-6">

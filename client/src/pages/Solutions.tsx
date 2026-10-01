@@ -39,6 +39,7 @@ export default function Solutions() {
     <SEO 
       title="Industry Security Solutions — Residential, Commercial, Industrial & Enterprise"
       description="HLS Security provides tailored security solutions for residential, commercial, industrial, retail, banking, healthcare, education, telecom, and luxury home sectors."
+      keywords="residential security Pakistan, commercial security, industrial security systems, retail security, bank security, healthcare security"
       path="/solutions"
     />
       {/* Page Hero */}

@@ -41,6 +41,7 @@ export default function Products() {
     <SEO 
       title="Security Products — Alarm Systems, CCTV, Fire Detection & More"
       description="Explore HLS Security's range of enterprise-grade products including security alarm systems, CCTV cameras, electric fences, fire detection, gate automation, and smart home systems."
+      keywords="security products Pakistan, security alarm system, CCTV cameras, electric fence, fire detection, gate automation, home automation"
       path="/products"
     />
       {/* Page Hero */}

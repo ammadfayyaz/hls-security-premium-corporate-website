@@ -41,6 +41,7 @@ export default function Services() {
     <SEO 
       title="Security Services — Installation, Monitoring, Armed Response & Maintenance"
       description="HLS Security offers professional security services including security alarm system installation, 24/7 monitoring, armed response, preventive maintenance, security audits, and system upgrades."
+      keywords="security installation Lahore, 24/7 alarm monitoring, armed response Pakistan, preventive security maintenance, security audits"
       path="/services"
     />
       {/* Page Hero */}

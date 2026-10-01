@@ -18,6 +18,7 @@ export default function Contact() {
     <SEO 
       title="Contact HLS Security — Free Security Assessment & Quotes"
       description="Contact HLS Security for a free security assessment, product quotes, or 24/7 emergency support. Call 042-111-457-911 or message us today."
+      keywords="contact HLS Security Lahore, security assessment, site survey, security system quote, emergency security support"
       path="/contact"
     />
       {/* Page Hero */}

@@ -1,21 +1,22 @@
 import { useEffect } from "react";
+import { canonicalUrl, SITE_ORIGIN } from "@/lib/site";
 
 interface SEOProps {
   title?: string;
   description?: string;
   path?: string;
+  keywords?: string;
+  robots?: string;
   schema?: object;
 }
 
-/**
- * HLS Security — SEO Component
- * Dynamically updates meta tags, Open Graph, Twitter Cards,
- * and injects Schema.org structured data per page
- */
+/** Keep the metadata and structured data in sync with the page actually rendered. */
 export default function SEO({
   title,
   description,
   path = "/",
+  keywords,
+  robots = "index, follow",
   schema,
 }: SEOProps) {
   useEffect(() => {
@@ -24,12 +25,11 @@ export default function SEO({
       : "HLS Security — Professional Electronic Security, Monitoring & Armed Response";
     const desc = description ||
       "HLS provides premium electronic security solutions including security alarm systems, 24/7 professional monitoring, and rapid armed response for residential, commercial, and enterprise clients.";
-    const url = `https://hls-security.com${path}`;
+    const url = canonicalUrl(path);
+    const indexable = !/\bnoindex\b/i.test(robots);
 
-    // Update title
     document.title = fullTitle;
 
-    // Update or create meta tags
     const updateMeta = (name: string, content: string, attr: "name" | "property" = "name") => {
       let el = document.querySelector(`meta[${attr}="${name}"]`);
       if (!el) {
@@ -41,34 +41,37 @@ export default function SEO({
     };
 
     updateMeta("description", desc);
-    updateMeta("keywords", "electronic security, security alarm systems, alarm monitoring, armed response, CCTV surveillance, electric fence, fire detection, gate automation, home automation, smart security");
-    updateMeta("robots", "index, follow");
+    updateMeta("keywords", keywords || "electronic security, security alarm systems, alarm monitoring, armed response, CCTV surveillance, electric fence, fire detection, gate automation, home automation, smart security");
+    updateMeta("robots", robots);
     updateMeta("author", "HLS Security");
-
-    // Open Graph
     updateMeta("og:title", fullTitle, "property");
     updateMeta("og:description", desc, "property");
-    updateMeta("og:url", url, "property");
     updateMeta("og:type", "website", "property");
     updateMeta("og:site_name", "HLS Security", "property");
-
-    // Twitter Cards
     updateMeta("twitter:card", "summary_large_image");
     updateMeta("twitter:title", fullTitle);
     updateMeta("twitter:description", desc);
 
-    // Canonical
     let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
+    if (indexable) {
+      if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.setAttribute("rel", "canonical");
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute("href", url);
+      updateMeta("og:url", url, "property");
+    } else {
+      canonical?.remove();
+      document.querySelector('meta[property="og:url"]')?.remove();
     }
-    canonical.setAttribute("href", url);
 
-    // Schema.org structured data
     const schemaId = "hls-schema";
-    let script = document.getElementById(schemaId) as HTMLScriptElement;
+    let script = document.getElementById(schemaId) as HTMLScriptElement | null;
+    if (!indexable) {
+      script?.remove();
+      return;
+    }
     if (!script) {
       script = document.createElement("script");
       script.id = schemaId;
@@ -78,32 +81,44 @@ export default function SEO({
 
     const defaultSchema = {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "HLS Security",
-      description: "Premium electronic security solutions including security alarm systems, 24/7 monitoring, and armed response.",
-      url: "https://hls-security.com",
-      logo: "https://hls-security.com/logo.png",
-      contactPoint: {
-        "@type": "ContactPoint",
-        telephone: "+1-555-100-2470",
-        contactType: "customer service",
-        available: "24/7",
-      },
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "24 Security Plaza, Suite 100",
-        addressLocality: "Business District",
-        addressCountry: "US",
-      },
-      sameAs: [
-        "https://www.facebook.com/hlssecurity",
-        "https://www.twitter.com/hlssecurity",
-        "https://www.linkedin.com/company/hlssecurity",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": `${SITE_ORIGIN}/#organization`,
+          name: "HLS Security",
+          url: SITE_ORIGIN,
+          logo: `${SITE_ORIGIN}/images/logo/hls-logo.png`,
+          telephone: "+92-42-111-457-911",
+          email: "info@hls-security.com",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "73 Munir Road, Lahore Cantt.",
+            addressLocality: "Lahore",
+            addressCountry: "PK",
+          },
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${SITE_ORIGIN}/#website`,
+          url: SITE_ORIGIN,
+          name: "HLS Security",
+          publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+          inLanguage: "en-PK",
+        },
+        {
+          "@type": path === "/contact" ? "ContactPage" : "WebPage",
+          "@id": `${url}#webpage`,
+          url,
+          name: fullTitle,
+          description: desc,
+          isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
+          inLanguage: "en-PK",
+        },
       ],
     };
 
     script.textContent = JSON.stringify(schema || defaultSchema);
-  }, [title, description, path, schema]);
+  }, [title, description, path, keywords, robots, schema]);
 
   return null;
 }

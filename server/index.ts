@@ -1,5 +1,6 @@
 import express from "express";
 import { createServer } from "http";
+import { readFileSync } from "node:fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { inquiryInputSchema, sendInquiryEmail } from "./inquiry";
@@ -42,9 +43,16 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const staticPath = path.resolve(__dirname, "public");
+    const sitemap = readFileSync(path.join(staticPath, "sitemap.xml"), "utf8");
+    const publicPages = new Set(Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g), ([, url]) => new URL(url).pathname));
     app.use(express.static(staticPath));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(staticPath, "index.html"));
+    app.get("*", (req, res) => {
+      const page = req.path.replace(/\/+$/, "") || "/";
+      if (!publicPages.has(page)) {
+        res.status(404).sendFile(path.join(staticPath, "404.html"));
+        return;
+      }
+      res.sendFile(path.join(staticPath, page === "/" ? "index.html" : `seo${page}.html`));
     });
   }
 

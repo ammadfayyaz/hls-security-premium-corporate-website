@@ -5,14 +5,3 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
-
-[[redirects]]
-  from = "/api/inquiry"
-  to = "/.netlify/functions/inquiry"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

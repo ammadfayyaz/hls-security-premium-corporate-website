@@ -44,6 +44,7 @@ export default function Home() {
     <SEO path="/" />
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <h1 className="sr-only">HLS Security — Professional Electronic Security, Monitoring &amp; Armed Response</h1>
         {/* Background - Full Banner Image (Desktop) */}
         <div className="absolute inset-0 flex items-center justify-center">
           <img

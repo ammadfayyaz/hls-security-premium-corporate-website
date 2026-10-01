@@ -4,7 +4,6 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import SEO from "./components/SEO";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -32,7 +31,6 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
-          <SEO />
           <Toaster />
           <Router />
           <ExitIntentPopup />
