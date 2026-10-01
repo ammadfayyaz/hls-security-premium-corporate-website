@@ -93,8 +93,8 @@ export default function Contact() {
                 <Mail className="w-6 h-6 text-[#CC0000]" />
               </div>
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-2">Email</h3>
-              <a href="mailto:info@hls-security.com" className="text-lg text-gray-300 hover:text-[#CC0000] transition-colors break-all">
-                info@hls-security.com
+              <a href="mailto:info@hls-corp.com" className="text-lg text-gray-300 hover:text-[#CC0000] transition-colors break-all">
+                info@hls-corp.com
               </a>
               <p className="text-xs text-gray-500 mt-1">Response within 24h</p>
             </motion.div>
