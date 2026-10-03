@@ -11,6 +11,7 @@ import Products from "./pages/Products";
 import Services from "./pages/Services";
 import Solutions from "./pages/Solutions";
 import Contact from "./pages/Contact";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function App() {
       <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
+          <GoogleAnalytics />
           <Router />
           <ExitIntentPopup />
         </TooltipProvider>
