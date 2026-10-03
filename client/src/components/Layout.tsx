@@ -223,7 +223,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-4">Contact</h4>
               <ul className="space-y-3 text-sm text-gray-400">
                 <li>042-111-457-911</li>
-                <li>info@hls-security.com</li>
+                <li>info@hls-corp.com</li>
                 <li>73 Munir Road Lahore Cantt.</li>
                 <li>Business Hours: 9:00 - 6:00</li>
                 <li className="pt-2">
