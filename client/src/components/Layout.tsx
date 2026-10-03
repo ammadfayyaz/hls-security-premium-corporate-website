@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, MessageCircle, ChevronUp } from "lucide-react";
 import { submitInquiry } from "@/lib/inquiry";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 /**
  * HLS Security — Sentinel Noir Design System
@@ -296,6 +297,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://wa.me/923001457911"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackWhatsAppClick("floating_button")}
           className="w-12 h-12 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-transform duration-200"
           aria-label="WhatsApp"
         >

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Check, Loader2, Send } from "lucide-react";
 import { getProductQuoteWhatsAppUrl } from "@/lib/whatsapp";
 import { submitInquiry } from "@/lib/inquiry";
+import { trackContactFormSubmit, trackQuoteRequest, trackWhatsAppClick } from "@/lib/analytics";
 
 interface LeadFormProps {
   variant?: "card" | "inline";
@@ -34,6 +35,8 @@ export default function LeadForm({
     e.preventDefault();
 
     if (whatsappProductName) {
+      trackWhatsAppClick("product_quote_form", whatsappProductName);
+      trackQuoteRequest("product_quote_form", whatsappProductName);
       window.open(
         getProductQuoteWhatsAppUrl(whatsappProductName),
         "_blank",
@@ -67,6 +70,7 @@ export default function LeadForm({
           Message: String(formData.get("message") ?? ""),
         },
       });
+      trackContactFormSubmit(formName);
       setLoading(false);
       setSubmitted(true);
     } catch {

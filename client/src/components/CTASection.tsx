@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
+import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/analytics";
 
 interface CTASectionProps {
   headline?: string;
@@ -7,6 +8,7 @@ interface CTASectionProps {
   secondaryButtonText?: string;
   primaryHref?: string;
   primaryExternal?: boolean;
+  whatsappProductName?: string;
 }
 
 /**
@@ -19,6 +21,7 @@ export default function CTASection({
   secondaryButtonText = "Speak to a Security Expert",
   primaryHref = "/contact",
   primaryExternal = false,
+  whatsappProductName,
 }: CTASectionProps) {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
@@ -53,6 +56,11 @@ export default function CTASection({
               href={primaryHref}
               target={primaryExternal ? "_blank" : undefined}
               rel={primaryExternal ? "noopener noreferrer" : undefined}
+              onClick={() => {
+                if (!primaryExternal || !whatsappProductName) return;
+                trackWhatsAppClick("product_consultation_cta", whatsappProductName);
+                trackQuoteRequest("product_consultation_cta", whatsappProductName);
+              }}
               className="btn-gradient inline-flex items-center gap-2 px-8 py-4 rounded-xl text-white text-base font-heading font-semibold group"
             >
               <Calendar className="w-5 h-5" />

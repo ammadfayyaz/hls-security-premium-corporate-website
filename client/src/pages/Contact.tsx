@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import LeadForm from "@/components/LeadForm";
+import { trackWhatsAppClick } from "@/lib/analytics";
 import SEO from "@/components/SEO";
 
 /**
@@ -49,6 +50,7 @@ export default function Contact() {
               href="https://wa.me/923001457911"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick("contact_hero")}
               aria-label="Chat with an HLS Security expert on WhatsApp"
               className="btn-gradient mt-7 inline-flex items-center justify-center gap-2.5 px-5 py-2.5 rounded-xl text-white text-sm font-heading font-semibold shadow-lg shadow-[#CC0000]/20 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]"
             >
@@ -111,7 +113,7 @@ export default function Contact() {
                 <MessageCircle className="w-6 h-6 text-[#25D366]" />
               </div>
               <h3 className="font-heading text-sm font-semibold text-white uppercase tracking-wider mb-2">WhatsApp</h3>
-              <a href="https://wa.me/923001457911" target="_blank" rel="noopener noreferrer" className="text-lg text-gray-300 hover:text-[#25D366] transition-colors">
+              <a href="https://wa.me/923001457911" target="_blank" rel="noopener noreferrer" onClick={() => trackWhatsAppClick("contact_card")} className="text-lg text-gray-300 hover:text-[#25D366] transition-colors">
                 Chat with us
               </a>
               <p className="text-xs text-gray-500 mt-1">Quick messaging</p>

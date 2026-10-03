@@ -8,6 +8,7 @@ import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import LeadForm from "@/components/LeadForm";
 import { productCategories } from "@/lib/data";
+import { trackQuoteRequest, trackWhatsAppClick } from "@/lib/analytics";
 import { getProductQuoteWhatsAppUrl } from "@/lib/whatsapp";
 import SEO from "@/components/SEO";
 
@@ -226,6 +227,10 @@ export default function Products() {
                     href={getProductQuoteWhatsAppUrl(product.name)}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => {
+                      trackWhatsAppClick("product_card", product.name);
+                      trackQuoteRequest("product_card", product.name);
+                    }}
                     aria-label={`Request a WhatsApp quote for ${product.name}`}
                     className="inline-flex items-center gap-1 text-sm font-heading font-semibold text-[#CC0000] hover:text-[#E60000] transition-colors group"
                   >
@@ -306,6 +311,7 @@ export default function Products() {
         headline="Need Help Choosing the Right Products?"
         buttonText="Schedule a Consultation"
         primaryHref={getProductQuoteWhatsAppUrl(selectedProduct !== null ? category.products[selectedProduct].name : category.name)}
+        whatsappProductName={selectedProduct !== null ? category.products[selectedProduct].name : category.name}
         primaryExternal
       />
     </div>
