@@ -29,7 +29,7 @@ function embedSchema(html, { title, description, url }) {
       {
         "@type": "Organization", "@id": `${origin}/#organization`, name: "HLS Security",
         url: origin, logo: `${origin}/images/logo/hls-logo.png`,
-        telephone: "+92-42-111-457-911", email: "info@hls-security.com",
+        telephone: "+92-42-111-457-911", email: "info@hls-corp.com",
         address: { "@type": "PostalAddress", streetAddress: "73 Munir Road, Lahore Cantt.", addressLocality: "Lahore", addressCountry: "PK" },
       },
       { "@type": "WebSite", "@id": `${origin}/#website`, url: origin, name: "HLS Security", publisher: { "@id": `${origin}/#organization` }, inLanguage: "en-PK" },

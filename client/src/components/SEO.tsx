@@ -89,7 +89,7 @@ export default function SEO({
           url: SITE_ORIGIN,
           logo: `${SITE_ORIGIN}/images/logo/hls-logo.png`,
           telephone: "+92-42-111-457-911",
-          email: "info@hls-security.com",
+          email: "info@hls-corp.com",
           address: {
             "@type": "PostalAddress",
             streetAddress: "73 Munir Road, Lahore Cantt.",
