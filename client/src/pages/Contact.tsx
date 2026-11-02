@@ -174,7 +174,7 @@ export default function Contact() {
       </section>
 
       {/* Contact Form + Info */}
-      <section className="py-24">
+      <section id="inquiry" className="py-24 scroll-mt-24">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Left: Contact Info */}
@@ -221,10 +221,6 @@ export default function Contact() {
                         </div>
                         <div className="flex justify-between">
                           <span>Armed Response</span>
-                          <span className="text-[#CC0000]">24/7/365</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Emergency Repairs</span>
                           <span className="text-[#CC0000]">24/7/365</span>
                         </div>
                       </div>

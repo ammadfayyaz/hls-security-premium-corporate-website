@@ -1,98 +1,185 @@
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import { readFileSync, writeFileSync, mkdirSync, unlinkSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
+import { build } from "esbuild";
 import { publicRoutes } from "./generate-sitemap.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const output = path.join(root, "dist/public");
 const source = path.join(root, "client/src/pages");
-const baseHtml = readFileSync(path.join(output, "index.html"), "utf8");
 const app = readFileSync(path.join(root, "client/src/App.tsx"), "utf8");
-const routes = publicRoutes(app, name => readFileSync(path.join(source, `${name}.tsx`), "utf8"));
-const escapeHtml = s => s.replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+const routes = publicRoutes(app, name =>
+  readFileSync(path.join(source, `${name}.tsx`), "utf8")
+);
+const baseHtml = readFileSync(path.join(output, "index.html"), "utf8");
+const origin = "https://www.hlssecurity.co";
+const rendererPath = path.join(root, "dist/.prerender.mjs");
+await build({
+  entryPoints: [path.join(root, "scripts/prerender.tsx")],
+  outfile: rendererPath,
+  bundle: true,
+  platform: "node",
+  format: "esm",
+  packages: "external",
+  jsx: "automatic",
+  tsconfig: path.join(root, "tsconfig.json"),
+  logLevel: "silent",
+});
+const { renderRoute, landingMetadata, pageSchema, absoluteImage } =
+  await import(pathToFileURL(rendererPath).href);
+for (const route of Object.keys(landingMetadata))
+  if (!routes.includes(route))
+    throw new Error(`Landing page ${route} is missing its public route`);
+const escapeHtml = value =>
+  String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 const componentForRoute = route => {
   const escaped = route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return app.match(new RegExp(`<Route\\s+path=\\{["']${escaped}["']\\}\\s+component=\\{\\(\\)\\s*=>\\s*<Layout><(\\w+)\\s*\\/>`))?.[1];
+  return app.match(
+    new RegExp(
+      `<Route\\s+path=\\{["']${escaped}["']\\}\\s+component=\\{\\(\\)\\s*=>\\s*<Layout><(\\w+)(?:\\s+[^>]*)?\\s*\\/>`
+    )
+  )?.[1];
 };
-const prop = (jsx, name) => jsx.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
-const replaceTag = (html, regex, replacement, name) => {
-  if (!regex.test(html)) throw new Error(`Missing ${name} in built index.html`);
-  return html.replace(regex, replacement);
-};
-const metaTag = (attr, key, value) => `<meta ${attr}="${key}" content="${escapeHtml(value)}" />`;
-const origin = "https://www.hlssecurity.co";
-
-function embedSchema(html, { title, description, url }) {
-  const graph = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization", "@id": `${origin}/#organization`, name: "HLS Security",
-        url: origin, logo: `${origin}/images/logo/hls-logo.png`,
-        telephone: "+92-42-111-457-911", email: "info@hls-corp.com",
-        address: { "@type": "PostalAddress", streetAddress: "73 Munir Road, Lahore Cantt.", addressLocality: "Lahore", addressCountry: "PK" },
-      },
-      { "@type": "WebSite", "@id": `${origin}/#website`, url: origin, name: "HLS Security", publisher: { "@id": `${origin}/#organization` }, inLanguage: "en-PK" },
-      {
-        "@type": url.endsWith("/contact") ? "ContactPage" : "WebPage",
-        "@id": `${url}#webpage`, url, name: title, description,
-        isPartOf: { "@id": `${origin}/#website` }, inLanguage: "en-PK",
-      },
-    ],
+const prop = (jsx, name) => jsx?.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
+function metadataFor(route) {
+  if (landingMetadata[route])
+    return {
+      ...landingMetadata[route],
+      title: `${landingMetadata[route].title} | HLS Security`,
+    };
+  if (route === "/")
+    return {
+      path: route,
+      title: baseHtml.match(/<title>([^<]+)<\/title>/)?.[1],
+      description: baseHtml.match(
+        /<meta name="description" content="([^"]+)"/
+      )?.[1],
+      keywords: baseHtml.match(/<meta name="keywords" content="([^"]+)"/)?.[1],
+    };
+  const component = componentForRoute(route);
+  if (!component) throw new Error(`Missing page component for ${route}`);
+  const page = readFileSync(path.join(source, `${component}.tsx`), "utf8");
+  const seo = page.match(/<SEO\b[\s\S]*?\/>/)?.[0];
+  return {
+    path: route,
+    title: `${prop(seo, "title")} | HLS Security`,
+    description: prop(seo, "description"),
+    keywords: prop(seo, "keywords"),
   };
-  const json = JSON.stringify(graph).replaceAll("<", "\\u003c");
-  return replaceTag(html, /<\/head>/, `  <script id="hls-schema" type="application/ld+json">${json}</script>\n  </head>`, "head");
 }
 
-export function renderPageHtml(html, { title, description, keywords, url, noindex = false }) {
-  html = replaceTag(html, /<title>[^<]*<\/title>/, `<title>${escapeHtml(title)}</title>`, "title");
-  for (const [key, value] of Object.entries({ description, keywords, robots: noindex ? "noindex, follow" : "index, follow", "twitter:title": title, "twitter:description": description })) {
-    html = replaceTag(html, new RegExp(`<meta name="${key}" content="[^"]*"\\s*\\/>`), metaTag("name", key, value), key);
-  }
-  for (const [key, value] of Object.entries({ "og:title": title, "og:description": description })) {
-    html = replaceTag(html, new RegExp(`<meta property="${key}" content="[^"]*"\\s*\\/>`), metaTag("property", key, value), key);
-  }
+function metaTag(html, attr, key, value) {
+  const tag = `<meta ${attr}="${key}" content="${escapeHtml(value)}" />`;
+  const regex = new RegExp(`<meta ${attr}="${key}" content="[^"]*"\\s*\\/>`);
+  return regex.test(html)
+    ? html.replace(regex, tag)
+    : html.replace("</head>", `  ${tag}\n</head>`);
+}
+
+export function renderPageHtml(html, meta, noindex = false) {
+  if (!meta.title || !meta.description || !meta.keywords)
+    throw new Error(`Incomplete metadata for ${meta.path}`);
+  const url = `${origin}${meta.path}`;
+  const image = absoluteImage(meta.image);
+  html = html.replace(
+    /<title>[^<]*<\/title>/,
+    `<title>${escapeHtml(meta.title)}</title>`
+  );
+  for (const [key, value] of Object.entries({
+    description: meta.description,
+    keywords: meta.keywords,
+    robots: noindex ? "noindex, follow" : "index, follow",
+    "twitter:title": meta.title,
+    "twitter:description": meta.description,
+    "twitter:image": image,
+  }))
+    html = metaTag(html, "name", key, value);
+  for (const [key, value] of Object.entries({
+    "og:title": meta.title,
+    "og:description": meta.description,
+    "og:image": image,
+  }))
+    html = metaTag(html, "property", key, value);
+  html = html.replace(
+    /<script id="hls-schema" type="application\/ld\+json">[\s\S]*?<\/script>/g,
+    ""
+  );
   if (noindex) {
-    html = replaceTag(html, /<link rel="canonical" href="[^"]*"\s*\/>/, "", "canonical");
-    html = replaceTag(html, /<meta property="og:url" content="[^"]*"\s*\/>/, "", "og:url");
+    html = html
+      .replace(/<link rel="canonical" href="[^"]*"\s*\/>/, "")
+      .replace(/<meta property="og:url" content="[^"]*"\s*\/>/, "");
   } else {
-    html = replaceTag(html, /<link rel="canonical" href="[^"]*"\s*\/>/, `<link rel="canonical" href="${escapeHtml(url)}" />`, "canonical");
-    html = replaceTag(html, /<meta property="og:url" content="[^"]*"\s*\/>/, metaTag("property", "og:url", url), "og:url");
-    html = embedSchema(html, { title, description, url });
+    html = html.replace(
+      /<link rel="canonical" href="[^"]*"\s*\/>/,
+      `<link rel="canonical" href="${url}" />`
+    );
+    html = metaTag(html, "property", "og:url", url);
+    html = html.replace(
+      "</head>",
+      `  <script id="hls-schema" type="application/ld+json">${JSON.stringify(pageSchema(meta)).replaceAll("<", "\\u003c")}</script>\n</head>`
+    );
   }
-  return html;
+  let body = renderRoute(meta.path);
+  // Resource hints belong in the head, not inside the root container.
+  const hints = [...body.matchAll(/<link\b[^>]*rel="preload"[^>]*\/>/g)].map(
+    match => match[0]
+  );
+  body = body.replace(/<link\b[^>]*rel="preload"[^>]*\/>/g, "");
+  if (hints.length)
+    html = html.replace("</head>", `  ${hints.join("\n  ")}\n</head>`);
+  return html.replace(
+    '<div id="root"></div>',
+    `<div id="root" data-prerendered="true">${body}</div>`
+  );
 }
 
 mkdirSync(path.join(output, "seo"), { recursive: true });
-const homeTitle = baseHtml.match(/<title>([^<]+)<\/title>/)?.[1];
-const homeDescription = baseHtml.match(/<meta name="description" content="([^"]+)"\s*\/>/)?.[1];
-if (!homeTitle || !homeDescription) throw new Error("Homepage title and description are required for structured data");
-writeFileSync(path.join(output, "index.html"), embedSchema(baseHtml, {
-  title: homeTitle, description: homeDescription, url: `${origin}/`,
-}), "utf8");
-for (const route of routes.filter(route => route !== "/")) {
-  const component = componentForRoute(route);
-  if (!component) throw new Error(`Missing component for ${route}`);
-  const page = readFileSync(path.join(source, `${component}.tsx`), "utf8");
-  const seo = page.match(/<SEO\b[\s\S]*?\/>/)?.[0];
-  if (!seo) throw new Error(`Missing SEO metadata for ${route}`);
-  const title = prop(seo, "title");
-  const description = prop(seo, "description");
-  const keywords = prop(seo, "keywords");
-  if (!title || !description || !keywords) throw new Error(`Incomplete SEO props for ${route}`);
-  writeFileSync(path.join(output, "seo", `${route.slice(1)}.html`), renderPageHtml(baseHtml, {
-    title: `${title} | HLS Security`, description, keywords,
-    url: `https://www.hlssecurity.co${route}`,
-  }), "utf8");
+for (const route of routes) {
+  const routeOutput =
+    route === "/"
+      ? path.join(output, "index.html")
+      : path.join(output, "seo", `${route.slice(1)}.html`);
+  mkdirSync(path.dirname(routeOutput), { recursive: true });
+  const html = renderPageHtml(baseHtml, metadataFor(route));
+  if ((html.match(/<h1\b/g) || []).length !== 1)
+    throw new Error(`Exactly one H1 required for ${route}`);
+  writeFileSync(routeOutput, html, "utf8");
 }
-writeFileSync(path.join(output, "404.html"), renderPageHtml(baseHtml, {
-  title: "Page Not Found | HLS Security",
-  description: "This HLS Security page could not be found.", keywords: "HLS Security",
-  noindex: true,
-}), "utf8");
-writeFileSync(path.join(output, "_redirects"), [
-  "/api/inquiry /.netlify/functions/inquiry 200!",
-  ...routes.filter(route => route !== "/").map(route => `${route} /seo${route}.html 200`),
-  "",
-].join("\n"), "utf8");
-console.log(`Built ${routes.length - 1} route-specific HTML heads and a noindex 404 page`);
+writeFileSync(
+  path.join(output, "404.html"),
+  renderPageHtml(
+    baseHtml,
+    {
+      path: "/404",
+      title: "Page Not Found | HLS Security",
+      description: "This HLS Security page could not be found.",
+      keywords: "HLS Security",
+    },
+    true
+  ),
+  "utf8"
+);
+writeFileSync(
+  path.join(output, "_redirects"),
+  [
+    "/api/inquiry /.netlify/functions/inquiry 200!",
+    ...routes
+      .filter(route => route !== "/")
+      .map(route => `${route}/ ${route} 301!`),
+    ...routes
+      .filter(route => route !== "/")
+      .map(route => `${route} /seo${route}.html 200`),
+    "/seo/* /404.html 404!",
+    "/* /404.html 404",
+    "",
+  ].join("\n"),
+  "utf8"
+);
+unlinkSync(rendererPath);
+console.log(
+  `Prerendered ${routes.length} public page bodies with unique HTML heads, shared schema, and a real noindex 404`
+);

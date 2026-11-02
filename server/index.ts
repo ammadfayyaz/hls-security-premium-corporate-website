@@ -45,6 +45,19 @@ async function startServer() {
     const staticPath = path.resolve(__dirname, "public");
     const sitemap = readFileSync(path.join(staticPath, "sitemap.xml"), "utf8");
     const publicPages = new Set(Array.from(sitemap.matchAll(/<loc>([^<]+)<\/loc>/g), ([, url]) => new URL(url).pathname));
+    app.use((req, res, next) => {
+      if (req.path.startsWith("/seo/")) {
+        res.status(404).sendFile(path.join(staticPath, "404.html"));
+        return;
+      }
+      const page = req.path.replace(/\/+$/, "") || "/";
+      if (req.path !== page && publicPages.has(page)) {
+        const query = req.originalUrl.includes("?") ? req.originalUrl.slice(req.originalUrl.indexOf("?")) : "";
+        res.redirect(301, page + query);
+        return;
+      }
+      next();
+    });
     app.use(express.static(staticPath));
     app.get("*", (req, res) => {
       const page = req.path.replace(/\/+$/, "") || "/";

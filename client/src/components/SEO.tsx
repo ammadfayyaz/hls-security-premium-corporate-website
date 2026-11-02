@@ -1,5 +1,13 @@
 import { useEffect } from "react";
-import { canonicalUrl, SITE_ORIGIN } from "@/lib/site";
+import { canonicalUrl } from "@/lib/site";
+import {
+  absoluteImage,
+  DEFAULT_KEYWORDS,
+  HOME_DESCRIPTION,
+  HOME_TITLE,
+  landingMetadata,
+  pageSchema,
+} from "@/lib/seoMetadata";
 
 interface SEOProps {
   title?: string;
@@ -7,30 +15,32 @@ interface SEOProps {
   path?: string;
   keywords?: string;
   robots?: string;
+  image?: string;
   schema?: object;
 }
 
-/** Keep the metadata and structured data in sync with the page actually rendered. */
+/** Runtime metadata and the production prerender use the same canonical/schema model. */
 export default function SEO({
   title,
   description,
   path = "/",
   keywords,
   robots = "index, follow",
+  image,
   schema,
 }: SEOProps) {
   useEffect(() => {
-    const fullTitle = title
-      ? `${title} | HLS Security`
-      : "HLS Security — Professional Electronic Security, Monitoring & Armed Response";
-    const desc = description ||
-      "HLS provides premium electronic security solutions including security alarm systems, 24/7 professional monitoring, and rapid armed response for residential, commercial, and enterprise clients.";
+    const fullTitle = title ? `${title} | HLS Security` : HOME_TITLE;
+    const desc = description || HOME_DESCRIPTION;
     const url = canonicalUrl(path);
     const indexable = !/\bnoindex\b/i.test(robots);
-
+    const socialImage = absoluteImage(image || landingMetadata[path]?.image);
     document.title = fullTitle;
-
-    const updateMeta = (name: string, content: string, attr: "name" | "property" = "name") => {
+    const updateMeta = (
+      name: string,
+      content: string,
+      attr: "name" | "property" = "name"
+    ) => {
       let el = document.querySelector(`meta[${attr}="${name}"]`);
       if (!el) {
         el = document.createElement("meta");
@@ -39,19 +49,25 @@ export default function SEO({
       }
       el.setAttribute("content", content);
     };
-
-    updateMeta("description", desc);
-    updateMeta("keywords", keywords || "electronic security, security alarm systems, alarm monitoring, armed response, CCTV surveillance, electric fence, fire detection, gate automation, home automation, smart security");
-    updateMeta("robots", robots);
-    updateMeta("author", "HLS Security");
-    updateMeta("og:title", fullTitle, "property");
-    updateMeta("og:description", desc, "property");
-    updateMeta("og:type", "website", "property");
-    updateMeta("og:site_name", "HLS Security", "property");
-    updateMeta("twitter:card", "summary_large_image");
-    updateMeta("twitter:title", fullTitle);
-    updateMeta("twitter:description", desc);
-
+    for (const [key, value] of Object.entries({
+      description: desc,
+      keywords: keywords || DEFAULT_KEYWORDS,
+      robots,
+      author: "HLS Security",
+      "twitter:card": "summary_large_image",
+      "twitter:title": fullTitle,
+      "twitter:description": desc,
+      "twitter:image": socialImage,
+    }))
+      updateMeta(key, value);
+    for (const [key, value] of Object.entries({
+      "og:title": fullTitle,
+      "og:description": desc,
+      "og:type": "website",
+      "og:site_name": "HLS Security",
+      "og:image": socialImage,
+    }))
+      updateMeta(key, value, "property");
     let canonical = document.querySelector('link[rel="canonical"]');
     if (indexable) {
       if (!canonical) {
@@ -65,60 +81,29 @@ export default function SEO({
       canonical?.remove();
       document.querySelector('meta[property="og:url"]')?.remove();
     }
-
-    const schemaId = "hls-schema";
-    let script = document.getElementById(schemaId) as HTMLScriptElement | null;
+    let script = document.getElementById(
+      "hls-schema"
+    ) as HTMLScriptElement | null;
     if (!indexable) {
       script?.remove();
       return;
     }
     if (!script) {
       script = document.createElement("script");
-      script.id = schemaId;
+      script.id = "hls-schema";
       script.type = "application/ld+json";
       document.head.appendChild(script);
     }
-
-    const defaultSchema = {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "@id": `${SITE_ORIGIN}/#organization`,
-          name: "HLS Security",
-          url: SITE_ORIGIN,
-          logo: `${SITE_ORIGIN}/images/logo/hls-logo.png`,
-          telephone: "+92-42-111-457-911",
-          email: "info@hls-corp.com",
-          address: {
-            "@type": "PostalAddress",
-            streetAddress: "73 Munir Road, Lahore Cantt.",
-            addressLocality: "Lahore",
-            addressCountry: "PK",
-          },
-        },
-        {
-          "@type": "WebSite",
-          "@id": `${SITE_ORIGIN}/#website`,
-          url: SITE_ORIGIN,
-          name: "HLS Security",
-          publisher: { "@id": `${SITE_ORIGIN}/#organization` },
-          inLanguage: "en-PK",
-        },
-        {
-          "@type": path === "/contact" ? "ContactPage" : "WebPage",
-          "@id": `${url}#webpage`,
-          url,
-          name: fullTitle,
+    script.textContent = JSON.stringify(
+      schema ||
+        pageSchema({
+          title: fullTitle,
           description: desc,
-          isPartOf: { "@id": `${SITE_ORIGIN}/#website` },
-          inLanguage: "en-PK",
-        },
-      ],
-    };
-
-    script.textContent = JSON.stringify(schema || defaultSchema);
-  }, [title, description, path, keywords, robots, schema]);
-
+          keywords: keywords || DEFAULT_KEYWORDS,
+          path,
+          image: socialImage,
+        })
+    );
+  }, [title, description, path, keywords, robots, image, schema]);
   return null;
 }

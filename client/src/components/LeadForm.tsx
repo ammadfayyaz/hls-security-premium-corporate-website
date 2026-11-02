@@ -1,9 +1,13 @@
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Loader2, Send } from "lucide-react";
 import { getProductQuoteWhatsAppUrl } from "@/lib/whatsapp";
 import { submitInquiry } from "@/lib/inquiry";
-import { trackContactFormSubmit, trackQuoteRequest, trackWhatsAppClick } from "@/lib/analytics";
+import {
+  trackContactFormSubmit,
+  trackQuoteRequest,
+  trackWhatsAppClick,
+} from "@/lib/analytics";
 
 interface LeadFormProps {
   variant?: "card" | "inline";
@@ -12,6 +16,7 @@ interface LeadFormProps {
   ctaText?: string;
   whatsappProductName?: string;
   formName?: string;
+  defaultServiceInterest?: string;
 }
 
 /**
@@ -25,7 +30,9 @@ export default function LeadForm({
   ctaText = "Request Assessment",
   whatsappProductName,
   formName = title,
+  defaultServiceInterest = "",
 }: LeadFormProps) {
+  const formId = useId();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -40,7 +47,7 @@ export default function LeadForm({
       window.open(
         getProductQuoteWhatsAppUrl(whatsappProductName),
         "_blank",
-        "noopener,noreferrer",
+        "noopener,noreferrer"
       );
       return;
     }
@@ -52,10 +59,14 @@ export default function LeadForm({
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const propertyType = form.elements.namedItem("propertyType") as HTMLSelectElement | null;
-    const serviceInterest = form.elements.namedItem("serviceInterest") as HTMLSelectElement | null;
+    const propertyType = form.elements.namedItem(
+      "propertyType"
+    ) as HTMLSelectElement | null;
+    const serviceInterest = form.elements.namedItem(
+      "serviceInterest"
+    ) as HTMLSelectElement | null;
     const selectedText = (select: HTMLSelectElement | null) =>
-      select?.value ? select.selectedOptions[0]?.text ?? select.value : "";
+      select?.value ? (select.selectedOptions[0]?.text ?? select.value) : "";
 
     try {
       await submitInquiry({
@@ -77,7 +88,7 @@ export default function LeadForm({
       submissionLock.current = false;
       setLoading(false);
       setSubmitError(
-        "Unable to submit your request at this time. Please try again or contact us directly.",
+        "Unable to submit your request at this time. Please try again or contact us directly."
       );
     }
   };
@@ -94,17 +105,26 @@ export default function LeadForm({
           <div className="w-16 h-16 rounded-full bg-[#CC0000]/20 flex items-center justify-center mx-auto mb-6">
             <Check className="w-8 h-8 text-[#CC0000]" />
           </div>
-          <h3 className="font-display text-2xl font-bold text-white mb-2">Thank You!</h3>
-          <p className="text-gray-400">Your request has been received. One of our security experts will contact you within 24 hours.</p>
+          <h3 className="font-display text-2xl font-bold text-white mb-2">
+            Thank You!
+          </h3>
+          <p className="text-gray-400">
+            Your request has been received. One of our security experts will
+            contact you within 24 hours.
+          </p>
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-heading font-medium text-gray-300 mb-1.5">
+              <label
+                htmlFor={`${formId}-name`}
+                className="block text-sm font-heading font-medium text-gray-300 mb-1.5"
+              >
                 Full Name *
               </label>
               <input
+                id={`${formId}-name`}
                 name="name"
                 type="text"
                 required
@@ -113,10 +133,14 @@ export default function LeadForm({
               />
             </div>
             <div>
-              <label className="block text-sm font-heading font-medium text-gray-300 mb-1.5">
+              <label
+                htmlFor={`${formId}-phone`}
+                className="block text-sm font-heading font-medium text-gray-300 mb-1.5"
+              >
                 Phone Number *
               </label>
               <input
+                id={`${formId}-phone`}
                 name="phone"
                 type="tel"
                 required
@@ -126,10 +150,14 @@ export default function LeadForm({
             </div>
           </div>
           <div>
-            <label className="block text-sm font-heading font-medium text-gray-300 mb-1.5">
+            <label
+              htmlFor={`${formId}-email`}
+              className="block text-sm font-heading font-medium text-gray-300 mb-1.5"
+            >
               Email Address *
             </label>
             <input
+              id={`${formId}-email`}
               name="email"
               type="email"
               required
@@ -139,44 +167,107 @@ export default function LeadForm({
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-heading font-medium text-gray-300 mb-1.5">
+              <label
+                htmlFor={`${formId}-propertyType`}
+                className="block text-sm font-heading font-medium text-gray-300 mb-1.5"
+              >
                 Property Type
               </label>
               <select
+                id={`${formId}-propertyType`}
                 name="propertyType"
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#CC0000]/50 focus:ring-1 focus:ring-[#CC0000]/30 transition-all"
               >
-                <option value="" className="bg-[#161616]">Select type</option>
-                <option value="residential" className="bg-[#161616]">Residential</option>
-                <option value="commercial" className="bg-[#161616]">Commercial</option>
-                <option value="industrial" className="bg-[#161616]">Industrial</option>
-                <option value="enterprise" className="bg-[#161616]">Enterprise</option>
+                <option value="" className="bg-[#161616]">
+                  Select type
+                </option>
+                <option value="residential" className="bg-[#161616]">
+                  Residential
+                </option>
+                <option value="commercial" className="bg-[#161616]">
+                  Commercial
+                </option>
+                <option value="industrial" className="bg-[#161616]">
+                  Industrial
+                </option>
+                <option value="enterprise" className="bg-[#161616]">
+                  Enterprise
+                </option>
               </select>
             </div>
             <div>
-              <label className="block text-sm font-heading font-medium text-gray-300 mb-1.5">
+              <label
+                htmlFor={`${formId}-serviceInterest`}
+                className="block text-sm font-heading font-medium text-gray-300 mb-1.5"
+              >
                 Service Interest
               </label>
               <select
+                id={`${formId}-serviceInterest`}
                 name="serviceInterest"
+                defaultValue={
+                  defaultServiceInterest === "24-7-monitoring"
+                    ? "monitoring"
+                    : defaultServiceInterest === "armed-response"
+                      ? "armed"
+                      : defaultServiceInterest
+                }
                 className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#CC0000]/50 focus:ring-1 focus:ring-[#CC0000]/30 transition-all"
               >
-                <option value="" className="bg-[#161616]">Select service</option>
-                <option value="intruder" className="bg-[#161616]">Security Alarm System</option>
-                <option value="monitoring" className="bg-[#161616]">24/7 Monitoring</option>
-                <option value="armed" className="bg-[#161616]">Armed Response</option>
-                <option value="cctv" className="bg-[#161616]">CCTV Surveillance</option>
-                <option value="fire" className="bg-[#161616]">Fire Detection</option>
-                <option value="automation" className="bg-[#161616]">Home Automation</option>
-                <option value="full" className="bg-[#161616]">Complete Security Solution</option>
+                <option value="" className="bg-[#161616]">
+                  Select service
+                </option>
+                <option value="intruder" className="bg-[#161616]">
+                  Security Alarm System
+                </option>
+                <option value="monitoring" className="bg-[#161616]">
+                  24/7 Monitoring
+                </option>
+                <option value="armed" className="bg-[#161616]">
+                  Armed Response
+                </option>
+                <option value="cctv" className="bg-[#161616]">
+                  CCTV Surveillance
+                </option>
+                <option value="fire" className="bg-[#161616]">
+                  Fire Detection
+                </option>
+                <option value="automation" className="bg-[#161616]">
+                  Home Automation
+                </option>
+                <option value="preventive-maintenance" className="bg-[#161616]">
+                  Preventive Maintenance
+                </option>
+                <option value="security-audits" className="bg-[#161616]">
+                  Security Audits
+                </option>
+                <option value="security-guards" className="bg-[#161616]">
+                  Security Guards
+                </option>
+                <option
+                  value="security-escort-service"
+                  className="bg-[#161616]"
+                >
+                  Security Escort Service
+                </option>
+                <option value="event-security" className="bg-[#161616]">
+                  Event Security
+                </option>
+                <option value="full" className="bg-[#161616]">
+                  Complete Security Solution
+                </option>
               </select>
             </div>
           </div>
           <div>
-            <label className="block text-sm font-heading font-medium text-gray-300 mb-1.5">
+            <label
+              htmlFor={`${formId}-message`}
+              className="block text-sm font-heading font-medium text-gray-300 mb-1.5"
+            >
               Message
             </label>
             <textarea
+              id={`${formId}-message`}
               name="message"
               rows={3}
               placeholder="Tell us about your security needs..."
@@ -206,7 +297,8 @@ export default function LeadForm({
             </p>
           )}
           <p className="text-xs text-gray-500 text-center">
-            By submitting, you agree to be contacted by HLS Security. We respect your privacy.
+            By submitting, you agree to be contacted by HLS Security. We respect
+            your privacy.
           </p>
         </form>
       )}
@@ -217,7 +309,9 @@ export default function LeadForm({
     return (
       <div>
         <div className="mb-6">
-          <h3 className="font-display text-2xl font-bold text-white mb-2">{title}</h3>
+          <h3 className="font-display text-2xl font-bold text-white mb-2">
+            {title}
+          </h3>
           <p className="text-gray-400">{subtitle}</p>
         </div>
         {formContent}
@@ -228,7 +322,9 @@ export default function LeadForm({
   return (
     <div className="glass-strong rounded-2xl p-6 md:p-8">
       <div className="mb-6">
-        <h3 className="font-display text-2xl font-bold text-white mb-2">{title}</h3>
+        <h3 className="font-display text-2xl font-bold text-white mb-2">
+          {title}
+        </h3>
         <p className="text-gray-400 text-sm">{subtitle}</p>
       </div>
       {formContent}

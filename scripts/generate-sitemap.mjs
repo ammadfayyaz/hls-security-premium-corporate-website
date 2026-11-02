@@ -7,13 +7,14 @@ const origin = "https://www.hlssecurity.co";
 
 /** Only explicit routes count; Wouter's catch-all and 404 are not indexable pages. */
 export function publicRoutes(appSource, readPage) {
-  const matches = [...appSource.matchAll(/<Route\s+path=\{["'](\/[a-z0-9/-]*)["']\}\s+component=\{\(\)\s*=>\s*<Layout><(\w+)\s*\/>/g)];
+  const matches = [...appSource.matchAll(/<Route\s+path=\{["'](\/[a-z0-9/-]*)["']\}\s+component=\{\(\)\s*=>\s*<Layout><(\w+)(?:\s+[^>]*)?\s*\/>,?\s*<\/Layout>/g)];
   if (!matches.length) throw new Error("No public routes found in App.tsx");
   const routes = matches.map(([, route, component]) => {
     const source = readPage(component);
     if (!source) throw new Error(`No page source found for public route ${route} (${component})`);
     const declaredPath = source.match(/<SEO\b[^>]*\bpath=["']([^"']+)["']/s)?.[1];
-    if (declaredPath !== route) {
+    const genericLandingComponent = component === "ProductCategory" || component === "ServiceDetail";
+    if (!genericLandingComponent && declaredPath !== route) {
       throw new Error(`Route ${route} must declare matching <SEO path=\"${route}\"> in ${component}`);
     }
     if (/<SEO\b[^>]*\brobots=["'][^"']*\bnoindex\b/i.test(source)) return null;

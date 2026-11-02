@@ -2,7 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.hlssecurity.co/</loc></url>
   <url><loc>https://www.hlssecurity.co/products</loc></url>
+  <url><loc>https://www.hlssecurity.co/products/security-alarm-systems</loc></url>
+  <url><loc>https://www.hlssecurity.co/products/cctv-systems</loc></url>
+  <url><loc>https://www.hlssecurity.co/products/electric-fence-systems</loc></url>
+  <url><loc>https://www.hlssecurity.co/products/fire-detection-systems</loc></url>
+  <url><loc>https://www.hlssecurity.co/products/gate-automation-systems</loc></url>
+  <url><loc>https://www.hlssecurity.co/products/home-automation-systems</loc></url>
   <url><loc>https://www.hlssecurity.co/services</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/24-7-monitoring</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/armed-response</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/preventive-maintenance</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/security-audits</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/security-guards</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/security-escort-service</loc></url>
+  <url><loc>https://www.hlssecurity.co/services/event-security</loc></url>
   <url><loc>https://www.hlssecurity.co/solutions</loc></url>
   <url><loc>https://www.hlssecurity.co/contact</loc></url>
 </urlset>

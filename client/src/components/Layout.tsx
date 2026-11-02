@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, MessageCircle, ChevronUp } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, ChevronUp, ChevronDown } from "lucide-react";
 import { submitInquiry } from "@/lib/inquiry";
 import { trackWhatsAppClick } from "@/lib/analytics";
+import { productCategoryRoutes, serviceRoutes } from "@/lib/landingPages";
 
 /**
  * HLS Security — Sentinel Noir Design System
@@ -18,15 +19,35 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
+const productNavLinks = productCategoryRoutes.map(({ name, landing }) => [
+  name === "Security Alarm System" || name.endsWith("Systems") ? name : `${name} Systems`,
+  `/products/${landing.slug}`,
+] as const);
+
+const serviceNavLinks = serviceRoutes.map(({ title, landing }) => [
+  title,
+  `/services/${landing.slug}`,
+] as const);
+
+const dropdownNavLabels = ["Products", "Services"] as const;
+type DropdownNavLabel = (typeof dropdownNavLabels)[number];
+
+function isDropdownNavLabel(label: string): label is DropdownNavLabel {
+  return dropdownNavLabels.includes(label as DropdownNavLabel);
+}
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<DropdownNavLabel | null>(null);
+  const [mobileExpandedMenu, setMobileExpandedMenu] = useState<DropdownNavLabel | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const [newsletterLoading, setNewsletterLoading] = useState(false);
   const [newsletterError, setNewsletterError] = useState("");
   const newsletterSubmissionLock = useRef(false);
+  const navigationRef = useRef<HTMLElement>(null);
   const [location] = useLocation();
 
   const handleNewsletterSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -64,8 +85,44 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMobileOpen(false);
+    setOpenMenu(null);
+    setMobileExpandedMenu(null);
+    if (window.location.hash === "#inquiry") {
+      const frame = window.requestAnimationFrame(() => {
+        document.getElementById("inquiry")?.scrollIntoView();
+      });
+      return () => window.cancelAnimationFrame(frame);
+    }
     window.scrollTo(0, 0);
   }, [location]);
+
+  useEffect(() => {
+    if (!openMenu && !mobileExpandedMenu && !mobileOpen) return;
+
+    const handleNavigationKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpenMenu(null);
+        setMobileExpandedMenu(null);
+        setMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleNavigationKeyDown);
+    return () => document.removeEventListener("keydown", handleNavigationKeyDown);
+  }, [openMenu, mobileExpandedMenu, mobileOpen]);
+
+  useEffect(() => {
+    if (!openMenu) return;
+
+    const handleOutsidePointerDown = (event: PointerEvent) => {
+      if (!navigationRef.current?.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+
+    document.addEventListener("pointerdown", handleOutsidePointerDown);
+    return () => document.removeEventListener("pointerdown", handleOutsidePointerDown);
+  }, [openMenu]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -77,7 +134,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             : "bg-transparent py-5"
         }`}
       >
-        <nav className="container flex items-center justify-between">
+        <nav ref={navigationRef} className="container flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <img
@@ -89,30 +146,70 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-heading font-medium transition-colors duration-200 relative group ${
-                  location === link.href
-                    ? "text-[#CC0000]"
-                    : "text-gray-300 hover:text-white"
-                }`}
-              >
-                {link.label}
-                <span
-                  className={`absolute -bottom-1 left-0 h-0.5 bg-[#CC0000] transition-all duration-300 ${
-                    location === link.href ? "w-full" : "w-0 group-hover:w-full"
-                  }`}
-                />
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              if (isDropdownNavLabel(link.label)) {
+                const menuLabel = link.label;
+                const menuItems = menuLabel === "Products" ? productNavLinks : serviceNavLinks;
+                const isOpen = openMenu === menuLabel;
+                const toggleId = `${menuLabel.toLowerCase()}-menu`;
+
+                return (
+                  <div
+                    key={link.href}
+                    className="relative group"
+                    onMouseEnter={() => setOpenMenu(menuLabel)}
+                    onMouseLeave={() => setOpenMenu(null)}
+                    onFocus={() => setOpenMenu(menuLabel)}
+                  >
+                    <div className="flex items-center gap-1">
+                      <Link
+                        href={link.href}
+                        className={`text-sm font-heading font-medium transition-colors duration-200 relative focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] ${location.startsWith(link.href) ? "text-[#CC0000]" : "text-gray-300 hover:text-white"}`}
+                      >
+                        {link.label}
+                        <span className={`absolute -bottom-1 left-0 h-0.5 bg-[#CC0000] transition-all duration-300 ${location.startsWith(link.href) ? "w-full" : "w-0 group-hover:w-full"}`} />
+                      </Link>
+                      <button
+                        type="button"
+                        aria-label={`${isOpen ? "Collapse" : "Expand"} ${link.label} menu`}
+                        aria-controls={toggleId}
+                        aria-expanded={isOpen}
+                        onClick={() => setOpenMenu(isOpen ? null : menuLabel)}
+                        className="rounded p-1 text-gray-400 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]"
+                      >
+                        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+                      </button>
+                    </div>
+                    {isOpen && (
+                      <div className="absolute top-full left-1/2 w-64 -translate-x-1/2 pt-4">
+                        <div id={toggleId} className="rounded-xl border border-white/10 bg-[#0B0B0B]/95 p-3 shadow-2xl backdrop-blur-xl">
+                          <Link href={link.href} className="block rounded-lg px-3 py-2 text-sm font-semibold text-white hover:bg-white/5 hover:text-[#CC0000] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000]">
+                            {link.label} Overview
+                          </Link>
+                          {menuItems.map(([label, href]) => (
+                            <Link key={href} href={href} className="block rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000]">
+                              {label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link key={link.href} href={link.href} className={`text-sm font-heading font-medium transition-colors duration-200 relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] ${location === link.href ? "text-[#CC0000]" : "text-gray-300 hover:text-white"}`}>
+                  {link.label}<span className={`absolute -bottom-1 left-0 h-0.5 bg-[#CC0000] transition-all duration-300 ${location === link.href ? "w-full" : "w-0 group-hover:w-full"}`} />
+                </Link>
+              );
+            })}
           </div>
 
           {/* CTA Button */}
           <div className="hidden lg:block">
             <a
-              href="/contact"
+              href="/contact#inquiry"
               className="btn-gradient inline-flex items-center px-5 py-2.5 rounded-lg text-white text-sm font-heading font-semibold"
             >
               Get a Quote
@@ -122,8 +219,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden text-white p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            onClick={() => setMobileOpen((isOpen) => !isOpen)}
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -131,23 +230,46 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-[#0B0B0B]/95 backdrop-blur-xl border-t border-white/10">
+          <div id="mobile-navigation" className="lg:hidden absolute top-full left-0 right-0 max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-white/10 bg-[#0B0B0B]/95 backdrop-blur-xl">
             <div className="container py-6 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-base font-heading font-medium transition-colors ${
-                    location === link.href
-                      ? "text-[#CC0000]"
-                      : "text-gray-300 hover:text-white"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                if (isDropdownNavLabel(link.label)) {
+                  const menuLabel = link.label;
+                  const menuItems = menuLabel === "Products" ? productNavLinks : serviceNavLinks;
+                  const isExpanded = mobileExpandedMenu === menuLabel;
+                  const toggleId = `mobile-${menuLabel.toLowerCase()}-menu`;
+
+                  return (
+                    <div key={link.href} className="border-b border-white/10 pb-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <Link href={link.href} className={`text-base font-heading font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] ${location.startsWith(link.href) ? "text-[#CC0000]" : "text-gray-300 hover:text-white"}`}>
+                          {link.label}
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label={`${isExpanded ? "Collapse" : "Expand"} ${link.label} menu`}
+                          aria-controls={toggleId}
+                          aria-expanded={isExpanded}
+                          onClick={() => setMobileExpandedMenu(isExpanded ? null : menuLabel)}
+                          className="rounded p-2 text-gray-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000]"
+                        >
+                          <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? "rotate-180" : ""}`} aria-hidden="true" />
+                        </button>
+                      </div>
+                      {isExpanded && (
+                        <div id={toggleId} className="mt-3 flex flex-col gap-3 pl-3">
+                          <Link href={link.href} className="text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000]">{link.label} Overview</Link>
+                          {menuItems.map(([label, href]) => <Link key={href} href={href} className="text-sm text-gray-400 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000]">{label}</Link>)}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return <Link key={link.href} href={link.href} className={`text-base font-heading font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CC0000] ${location === link.href ? "text-[#CC0000]" : "text-gray-300 hover:text-white"}`}>{link.label}</Link>;
+              })}
               <a
-                href="/contact"
+                href="/contact#inquiry"
                 className="btn-gradient inline-flex items-center justify-center px-5 py-3 rounded-lg text-white text-sm font-heading font-semibold mt-2"
               >
                 Get a Quote
@@ -208,9 +330,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <h4 className="font-display text-sm font-semibold text-white uppercase tracking-wider mb-4">Services</h4>
               <ul className="space-y-3">
-                {["Security Alarm System", "24/7 Monitoring", "Armed Response", "CCTV Surveillance", "Fire Detection", "Gate Automation"].map((service) => (
-                  <li key={service}>
-                    <Link href="/services" className="text-sm text-gray-400 hover:text-[#CC0000] transition-colors">
+                {serviceNavLinks.map(([service, href]) => (
+                  <li key={href}>
+                    <Link href={href} className="text-sm text-gray-400 hover:text-[#CC0000] transition-colors">
                       {service}
                     </Link>
                   </li>

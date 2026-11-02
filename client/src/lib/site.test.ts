@@ -31,7 +31,7 @@ describe("production SEO metadata", () => {
   });
 
   it("uses the real organization, logo, and Pakistan address, not fabricated US data", () => {
-    const source = read("client/src/components/SEO.tsx");
+    const source = read("client/src/lib/seoMetadata.ts");
     expect(source).toContain("/images/logo/hls-logo.png");
     expect(source).toContain("73 Munir Road, Lahore Cantt.");
     expect(source).toContain('addressCountry: "PK"');

@@ -18,6 +18,7 @@ import {
   primaryServices, secondaryServices, trustIndicators, whyChooseHLS,
   howItWorks, industries, testimonials, faqs,
 } from "@/lib/data";
+import { productCategoryRoutes, serviceRoutes } from "@/lib/landingPages";
 import SEO from "@/components/SEO";
 
 /**
@@ -36,6 +37,17 @@ const industryIcons: Record<string, React.ComponentType<{ className?: string }>>
   "Educational Institutions": GraduationCap, "Healthcare": HeartPulse,
   "Telecommunication Infrastructure": Radio, "Restaurants & Cafes": ShoppingBag,
   "Hotels & Apartments": Building2, "Luxury Homes": Crown,
+};
+
+const homeCardRoutes: Record<string, string> = {
+  "Security Alarm System": `/products/${productCategoryRoutes.find(({ name }) => name === "Security Alarm System")!.landing.slug}`,
+  "24/7 Alarm Monitoring": `/services/${serviceRoutes.find(({ title }) => title === "24/7 Monitoring")!.landing.slug}`,
+  "Armed Response Services": `/services/${serviceRoutes.find(({ title }) => title === "Armed Response")!.landing.slug}`,
+  "CCTV Surveillance": `/products/${productCategoryRoutes.find(({ name }) => name === "CCTV Systems")!.landing.slug}`,
+  "Electric Fence Systems": `/products/${productCategoryRoutes.find(({ name }) => name === "Electric Fence")!.landing.slug}`,
+  "Fire Detection & Alarms": `/products/${productCategoryRoutes.find(({ name }) => name === "Fire Detection")!.landing.slug}`,
+  "Gate Automation": `/products/${productCategoryRoutes.find(({ name }) => name === "Gate Automation")!.landing.slug}`,
+  "Home Automation": `/products/${productCategoryRoutes.find(({ name }) => name === "Home Automation")!.landing.slug}`,
 };
 
 export default function Home() {
@@ -138,7 +150,7 @@ export default function Home() {
                     ))}
                   </ul>
                   <a
-                    href="/services"
+                    href={homeCardRoutes[service.title]}
                     className="inline-flex items-center gap-1 text-sm font-heading font-semibold text-[#CC0000] hover:text-[#E60000] transition-colors group/link"
                   >
                     Learn More
@@ -243,7 +255,7 @@ export default function Home() {
               return (
                 <motion.a
                   key={i}
-                  href="/services"
+                  href={homeCardRoutes[service.title]}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}

@@ -10,7 +10,15 @@ const readPage = name => readFileSync(path.join(root, "client/src/pages", `${nam
 
 describe("public XML sitemap", () => {
   it("discovers every real, indexable public Wouter route from its page source", () => {
-    expect(publicRoutes(app, readPage)).toEqual(["/", "/products", "/services", "/solutions", "/contact"]);
+    expect(publicRoutes(app, readPage)).toEqual([
+      "/", "/products",
+      "/products/security-alarm-systems", "/products/cctv-systems", "/products/electric-fence-systems",
+      "/products/fire-detection-systems", "/products/gate-automation-systems", "/products/home-automation-systems",
+      "/services",
+      "/services/24-7-monitoring", "/services/armed-response", "/services/preventive-maintenance",
+      "/services/security-audits", "/services/security-guards", "/services/security-escort-service", "/services/event-security",
+      "/solutions", "/contact",
+    ]);
   });
 
   it("excludes noindex routes and rejects routes with missing SEO or duplicate paths", () => {
@@ -24,7 +32,7 @@ describe("public XML sitemap", () => {
     const xml = buildSitemap(publicRoutes(app, readPage));
     expect(xml).toContain('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"');
     const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1]);
-    expect(urls).toHaveLength(5);
+    expect(urls).toHaveLength(18);
     expect(new Set(urls).size).toBe(urls.length);
     expect(urls.every(url => url.startsWith("https://www.hlssecurity.co/"))).toBe(true);
     expect(urls.some(url => /localhost|\/404|\/api|\/test|\/admin|\?/.test(url))).toBe(false);

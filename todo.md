@@ -173,3 +173,21 @@
 - [x] Avoid unsupported model numbers, certifications, ranges, voltages, thresholds, decibel ratings, IP ratings, and protocols.
 - [x] Preserve the existing card design and product-specific WhatsApp quotation behavior.
 - [x] Verify 67 tests, TypeScript, production build, desktop/mobile layouts, rendered content counts, and browser console.
+
+## Complete Products and Services SEO Architecture
+
+- [x] Replace tab-only browsing with six product category pages and seven approved service pages.
+- [x] Preserve product names, descriptions, features, specifications, images, and product-specific WhatsApp quote behavior.
+- [x] Rebuild concise Products and Services overview directories with real category/service anchors.
+- [x] Add unique H1s, introductions, applications, selection guidance, service process, FAQs, related links, and contextual inquiry forms.
+- [x] Add desktop hover/focus/click dropdowns and expandable mobile navigation with Escape behavior and ARIA controls.
+- [x] Add visible breadcrumbs, canonical social metadata, and shared Organization/WebSite/WebPage/ContactPage/BreadcrumbList/Service JSON-LD.
+- [x] Prerender full page bodies for all 18 public URLs without introducing a database, auth, or new dependencies.
+- [x] Regenerate and validate the canonical www sitemap; retain correct robots.txt and noindex real 404s.
+- [x] Add one-step trailing-slash 301s and prevent duplicate internal /seo URLs.
+- [x] Add responsive WebP variants of nine existing visuals; preserve all original assets and add intrinsic dimensions and appropriate lazy loading.
+- [x] Verify 99 client tests, 14 server tests, TypeScript, production build, and the 18-route production HTTP/SEO validator.
+- [x] Verify correct SPA metadata, one GA4 page-view per route, product quotation events, menu controls, and mocked form duplicate-submit protection without sending email.
+- [x] Verify desktop/mobile screenshots and one fresh desktop lab LCP observation (700ms; not field Core Web Vitals).
+- [x] Prepare the existing Netlify build workflow without modifying Netlify configuration or deploying production.
+- [ ] After publication, verify live URLs, sitemap, slash redirects, and Search Console URL inspection; assess field LCP, INP, and CLS.
