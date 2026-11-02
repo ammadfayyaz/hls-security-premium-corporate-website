@@ -21,15 +21,13 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const serviceImages: Record<string, string> = {
-  "Security Alarm System Installation": "/images/services/alarm-system.jpg",
   "24/7 Monitoring": "/images/services/monitoring-center.jpg",
   "Armed Response": "/images/services/armed-response.jpg",
   "Preventive Maintenance": "/images/services/cctv-camera.jpg",
-  "Annual Maintenance Contracts": "/images/services/alarm-system.jpg",
-  "Remote Monitoring": "/images/services/monitoring-center.jpg",
-  "Emergency Repairs": "/images/services/armed-response.jpg",
   "Security Audits": "/images/services/cctv-camera.jpg",
-  "System Upgrades": "/images/products/home-automation.jpg",
+  "Security Guards": "/images/services/armed-response.jpg",
+  "Security Escort Service": "/images/services/armed-response.jpg",
+  "Event Security": "/images/services/cctv-camera.jpg",
 };
 
 export default function Services() {
@@ -40,8 +38,8 @@ export default function Services() {
     <div className="bg-background">
     <SEO 
       title="Security Services — Installation, Monitoring, Armed Response & Maintenance"
-      description="HLS Security offers professional security services including security alarm system installation, 24/7 monitoring, armed response, preventive maintenance, security audits, and system upgrades."
-      keywords="security installation Lahore, 24/7 alarm monitoring, armed response Pakistan, preventive security maintenance, security audits"
+      description="HLS Security offers professional security services including 24/7 monitoring, armed response, preventive maintenance, security audits, security guards, security escort services, and event security."
+      keywords="security guards Pakistan, security escort services, event security Lahore, 24/7 alarm monitoring, armed response, preventive security maintenance, security audits"
       path="/services"
     />
       {/* Page Hero */}
@@ -66,7 +64,7 @@ export default function Services() {
               Professional Security Services
             </h1>
             <p className="text-lg text-gray-400 leading-relaxed">
-              From installation to 24/7 monitoring to armed response — HLS delivers complete security service management backed by certified professionals.
+              From professional monitoring and armed response to on-site personnel and event protection, HLS delivers complete security service management tailored to each client.
             </p>
           </motion.div>
         </div>
@@ -278,7 +276,7 @@ export default function Services() {
               <SectionHeading
                 eyebrow="Get Started"
                 title="Request a Service"
-                subtitle="Whether you need installation, monitoring, maintenance, or emergency repair — our team is ready to help."
+                subtitle="Whether you need monitoring, on-site security personnel, maintenance, escort support, or event protection — our team is ready to help."
               />
               <div className="mt-8 grid grid-cols-2 gap-4">
                 <div className="glass rounded-xl p-5">
