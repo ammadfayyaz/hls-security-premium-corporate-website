@@ -51,3 +51,28 @@ node scripts/verify-seo-build.mjs
 ```
 
 Settings tests fetch only Google's public loader URL and do not submit events or access unrelated credentials. Runtime analytics errors are contained so links and forms can still operate.
+
+## Verified implementation snapshot — 2 November 2026
+
+The current settings supplied through Secrets are `G-0NH2L4FQ5V` and `GTM-K5W62GN4`. The previous source used `G-HV2YJJ3NZP`; the newly supplied stream was intentionally selected during the settings update. The two properties' historical data is not merged by an ID change.
+
+GTM **version 3** was published on 2 November 2026 with one existing GA4 startup tag, one native GA4 conversion event tag, one exact-event trigger, and four context variables. Existing automatic-event/user-provided-data settings were retained; there were no container-item deletions.
+
+All **133 unit/integration tests**, TypeScript, the production build, and the 18-page static SEO validator passed. Isolated stock Chromium testing against the actual production build and published container confirmed:
+
+- One GTM loader and body noscript fallback; no direct GA4 loader.
+- Correct GA4 destination `G-0NH2L4FQ5V` in Google collection requests.
+- Exactly one initial `page_view` and one additional `page_view` after SPA navigation to Contact, with the correct updated title.
+- One `whatsapp_click` and one `quote_request` from a real product-card interaction, retaining `Control Panels`, source, and WhatsApp method.
+- Zero `contact_form_submit` events for a mocked API failure, and exactly one for the mocked success, retaining `Site Survey` as the form name and clearing prior product context.
+- Google collection responses **HTTP 204** and no page JavaScript errors. No form email was sent during this QA.
+
+This proves that requests were accepted by Google's collection endpoint, not by itself that reports have processed them. GA4 Realtime/DebugView and the final live Netlify deployment remain separate checks. The managed preview browser failed to fetch Google's external script and Tag Assistant did not connect there; the independent Chromium check establishes that the production-build integration itself loads and sends the expected events. Do not mark Tag Assistant's managed-preview connection as passed.
+
+Independent browser checks also passed with both IDs blank, direct GA4 only, and GTM only. Each case retained Contact navigation, all three Contact forms, and WhatsApp links without JavaScript errors or an extra Google loader.
+
+## Production build configuration
+
+On 2 November 2026, the same two public identifiers were added to the existing Netlify project **hls-world**, whose dashboard currently links to `https://hlssecurity.pk`. Both values are configured for **Production only**. Other deploy-context values remain empty. The existing plan permits All scopes, which includes Builds; no plan upgrade or permission change was made. Existing email variables, Resend credentials, site domains, canonical configuration, and build settings were not modified.
+
+The earlier Netlify bundle had selected off mode because these build variables were absent. Rebuild the connected production branch after saving the values; the existing bundle cannot update itself. Keep future changes aligned between Manus Secrets and Netlify production variables. In GTM mode, changing the GA4 destination also requires updating and publishing the GTM tags. The actual deployed configuration can be checked in the public `hls-tracking-config` JSON element, which contains only these public IDs and the resolved mode.

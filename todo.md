@@ -191,3 +191,16 @@
 - [x] Verify desktop/mobile screenshots and one fresh desktop lab LCP observation (700ms; not field Core Web Vitals).
 - [x] Prepare the existing Netlify build workflow without modifying Netlify configuration or deploying production.
 - [ ] After publication, verify live URLs, sitemap, slash redirects, and Search Console URL inspection; assess field LCP, INP, and CLS.
+
+## Settings-managed GA4 and GTM
+
+- [x] Audit the existing direct GA4 implementation, event helpers, container destinations, Google Ads, and consent mechanisms.
+- [x] Configure the two public tracking identifiers through existing Settings → Secrets and validate their formats.
+- [x] Implement public-only global HTML configuration with exclusive GTM, direct-GA4, and disabled modes and one loader guard.
+- [x] Preserve existing WhatsApp, quote, successful inquiry events, SEO, forms, design, products/services, and private credentials.
+- [x] Configure and publish GTM version 3 with one GA4 initialization trigger, one native conversion event tag, one exact-event trigger, and four context variables; preserve all other settings with zero deletions.
+- [x] Pass 133 tests, TypeScript, production build, and all 18 static-page SEO/asset checks.
+- [x] Verify actual Google requests in isolated Chromium: one initial/one SPA page view, correct titles/stream, one WhatsApp and one quote event, failed-versus-successful form events, clean JavaScript, HTTP 204 acceptance, and no real email sending.
+- [x] Verify that tracking-off, direct-GA4, and GTM-only modes retain navigation, all Contact forms, and WhatsApp links without JavaScript errors.
+- [x] Add both public identifiers to the existing Netlify project's Production environment without altering email credentials, other variables, domains, or build settings.
+- [ ] Confirm the test events in GA4 Realtime/DebugView and complete the hosting synchronization and live deployment checks.
