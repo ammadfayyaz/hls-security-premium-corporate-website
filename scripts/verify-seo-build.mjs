@@ -25,7 +25,19 @@ for (const route of routes) {
   assert(html.includes(`rel="canonical" href="${origin}${route}"`), `Canonical mismatch: ${route}`);
   assert(html.includes('name="robots" content="index, follow"'), `Indexability: ${route}`);
   assert(html.includes('data-prerendered="true"') && /<h2\b/.test(html), `Missing static body: ${route}`);
-  assert((html.match(/googletagmanager\.com\/gtag\/js\?id=G-HV2YJJ3NZP/g) || []).length === 1, `GA4 loader count: ${route}`);
+  const trackingJSON = html.match(/<script id="hls-tracking-config" type="application\/json">([^<]+)<\/script>/)?.[1];
+  assert(trackingJSON, `Missing tracking settings: ${route}`);
+  const tracking = JSON.parse(trackingJSON);
+  assert((html.match(/id="hls-tracking-bootstrap"/g) || []).length === 1, `Duplicate tracking bootstrap: ${route}`);
+  if (tracking.mode === 'gtm') {
+    assert(/^GTM-[A-Z0-9]{4,20}$/.test(tracking.gtmContainerId), `Invalid GTM ID: ${route}`);
+    assert(html.includes('googletagmanager.com/gtm.js?id=') && html.includes(`ns.html?id=${tracking.gtmContainerId}`), `Missing GTM installation: ${route}`);
+    assert(!html.includes('googletagmanager.com/gtag/js?id='), `Duplicate direct GA4 in GTM mode: ${route}`);
+  } else if (tracking.mode === 'direct') {
+    assert(/^G-[A-Z0-9]{10}$/.test(tracking.ga4MeasurementId), `Invalid GA4 ID: ${route}`);
+    assert(html.includes(`gtag/js?id=${tracking.ga4MeasurementId}`) && html.includes('send_page_view:false'), `Missing direct GA4 installation: ${route}`);
+    assert(!html.includes('googletagmanager.com/gtm.js?id='), `Duplicate GTM in direct mode: ${route}`);
+  } else assert(tracking.mode === 'off' && !html.includes('googletagmanager.com/'), `Invalid disabled tracking: ${route}`);
   const schemaText = html.match(/<script id="hls-schema" type="application\/ld\+json">([\s\S]*?)<\/script>/)?.[1];
   assert(schemaText, `Missing schema: ${route}`);
   const schema = JSON.parse(schemaText);

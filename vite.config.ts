@@ -3,8 +3,10 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
-import { defineConfig, type Plugin, type ViteDevServer } from "vite";
+import { defineConfig, loadEnv, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { resolveTrackingConfiguration } from "./shared/tracking";
+import { renderTrackingMarkup } from "./scripts/tracking-markup";
 
 // =============================================================================
 // Manus Debug Collector - Vite Plugin
@@ -203,7 +205,27 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+function vitePluginGoogleTracking(): Plugin {
+  let mode = "development";
+  return {
+    name: "hls-google-tracking",
+    configResolved(config) { mode = config.mode; },
+    transformIndexHtml: {
+      order: "pre",
+      handler(html) {
+        const env = loadEnv(mode, PROJECT_ROOT, ["VITE_GA4_MEASUREMENT_ID", "VITE_GTM_CONTAINER_ID"]);
+        const config = resolveTrackingConfiguration({
+          VITE_GA4_MEASUREMENT_ID: env.VITE_GA4_MEASUREMENT_ID,
+          VITE_GTM_CONTAINER_ID: env.VITE_GTM_CONTAINER_ID,
+        });
+        const markup = renderTrackingMarkup(config);
+        return html.replace("<!-- HLS_TRACKING_HEAD -->", markup.head).replace("<!-- HLS_TRACKING_BODY -->", markup.body);
+      },
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy(), vitePluginGoogleTracking()];
 
 export default defineConfig({
   plugins,
