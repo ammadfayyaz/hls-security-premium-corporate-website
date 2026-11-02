@@ -190,7 +190,8 @@
 - [x] Verify correct SPA metadata, one GA4 page-view per route, product quotation events, menu controls, and mocked form duplicate-submit protection without sending email.
 - [x] Verify desktop/mobile screenshots and one fresh desktop lab LCP observation (700ms; not field Core Web Vitals).
 - [x] Prepare the existing Netlify build workflow without modifying Netlify configuration or deploying production.
-- [ ] After publication, verify live URLs, sitemap, slash redirects, and Search Console URL inspection; assess field LCP, INP, and CLS.
+- [x] Verify all 18 live URLs, sitemap, safe slash aliases, metadata, and real noindex 404s after publication; repair Netlify's unsupported normalized self-redirects.
+- [ ] Owner-side follow-up: Search Console URL inspection and field LCP, INP, and CLS assessment remain separate external checks.
 
 ## Settings-managed GA4 and GTM
 
@@ -203,4 +204,5 @@
 - [x] Verify actual Google requests in isolated Chromium: one initial/one SPA page view, correct titles/stream, one WhatsApp and one quote event, failed-versus-successful form events, clean JavaScript, HTTP 204 acceptance, and no real email sending.
 - [x] Verify that tracking-off, direct-GA4, and GTM-only modes retain navigation, all Contact forms, and WhatsApp links without JavaScript errors.
 - [x] Add both public identifiers to the existing Netlify project's Production environment without altering email credentials, other variables, domains, or build settings.
-- [ ] Confirm the test events in GA4 Realtime/DebugView and complete the hosting synchronization and live deployment checks.
+- [x] Confirm all three conversion events in the correct GA4 Realtime property and complete GitHub synchronization and Netlify production checks.
+- [x] Repeat real Google request QA on the live primary domain, with HTTP 204 acceptance and correct event/title/context counts, and validate all 18 public direct URLs and slash aliases.
