@@ -167,9 +167,8 @@ writeFileSync(
   path.join(output, "_redirects"),
   [
     "/api/inquiry /.netlify/functions/inquiry 200!",
-    ...routes
-      .filter(route => route !== "/")
-      .map(route => `${route}/ ${route} 301!`),
+    // Netlify normalizes trailing slashes before matching: slash-only 301s loop.
+    // Both variants use these existing rewrites and the same canonical metadata.
     ...routes
       .filter(route => route !== "/")
       .map(route => `${route} /seo${route}.html 200`),

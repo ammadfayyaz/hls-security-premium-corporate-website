@@ -13,6 +13,15 @@ const titles = new Set();
 const descriptions = new Set();
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 
+const redirects = readFileSync(path.join(output, '_redirects'), 'utf8');
+for (const line of redirects.split('\n')) {
+  const [from, to, status] = line.trim().split(/\s+/);
+  if (/^30[12]/.test(status || '')) {
+    const normalize = value => value.replace(/\/+$/, '') || '/';
+    assert(normalize(from) !== normalize(to), `Netlify normalized self-redirect: ${line}`);
+  }
+}
+
 for (const route of routes) {
   const filename = path.join(output, route === "/" ? "index.html" : `seo${route}.html`);
   const html = readFileSync(filename, "utf8");
@@ -56,8 +65,9 @@ for (const route of routes) {
     assert(status === 200, `HTTP ${status}: ${route}`);
     assert((await response.text()).includes(title), `Wrong HTTP page: ${route}`);
     if (route !== '/') {
-      const slash = await fetch(host + route + '/', { redirect: 'manual' });
-      assert(slash.status === 301 && slash.headers.get('location') === route, `Canonical slash redirect: ${route}`);
+      const slash = await fetch(host + route + '/');
+      const slashHtml = await slash.text();
+      assert(slash.status === 200 && slashHtml.includes(title) && slashHtml.includes(`rel="canonical" href="${origin}${route}"`), `Unsafe slash alias: ${route}`);
     }
   }
   results.push({ route, status, h1: 1, canonical: origin + route, schemaTypes: types });
@@ -73,4 +83,4 @@ if (host) {
   }
 }
 writeFileSync(path.join(root, 'dist/seo-validation.json'), JSON.stringify({ routes: results, total: results.length, httpChecked: Boolean(host), uniqueTitles: titles.size, uniqueDescriptions: descriptions.size }, null, 2));
-console.log(`Validated ${results.length} static pages, unique metadata, H1s, JSON-LD, breadcrumbs, assets, GA4 loader, and robots${host ? '; all direct URLs 200, slash aliases 301, unknown/retired aliases 404' : ''}.`);
+console.log(`Validated ${results.length} static pages, unique metadata, H1s, JSON-LD, breadcrumbs, assets, Google tracking, and robots${host ? '; all direct URLs 200, slash aliases resolve safely, unknown/retired aliases 404' : ''}.`);
